@@ -196,7 +196,7 @@ for(a in 1:iter){
     
     frame<-data.frame(handRtotal=handRtotal,handLtotal=handLtotal,fome1total=fome1total,fome2total=fome2total,
                       timeall=timeall,a.save=a.save,j.save=j.save,dose=dose,eventtotal=eventtotal)
-    maxdose<-data.frame(max.dose=max.dose,a.save.2=a.save.2,j.save.2=j.save.2)
+    maxdose<-data.frame(maxdose=max.dose,a=a.save.2,j=j.save.2)
     param<-data.frame(Tehandsurf=Tehandsurf,Tesurfhand=Tesurfhand,totalhand=totalhand,
                       SAfome1=SAfome1,SAfome2=SAfome2,kfome=kfome,khand=khand)
   } #end of discrete model (all 4 done) loop (j)

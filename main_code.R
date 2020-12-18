@@ -44,8 +44,6 @@ ggplot(framecombine)+geom_line(aes(x=timeall,y=handRtotal,group=interaction(a.sa
 
 
 windows()
-ggplot(maxdoseplot)+geom_violin(aes(x=model,y=dose,group=interaction(j.save,model)))+
-  scale_y_continuous(trans="log10")+
-  facet_wrap(~j.save,scales="free")
+ggplot(maxdoseplot)+geom_violin(aes(x=model,y=maxdose,group=interaction(j,model)))
 
 
