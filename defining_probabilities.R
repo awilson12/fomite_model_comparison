@@ -71,7 +71,7 @@ P.3.3.b<-exp(-lambda.3.b.T)
 
 P.3.b<-(1-P.3.3.b)*(lambdas.3.b/lambda.3.b.T)
 
-P.3.b.total<-c(P.3.b[1:2],P.3.3.b,P.3.b[3])
+P.3.b.total<-c(P.3.b[1:2],P.3.3.b,P.3.b[3],0)
 
 #State 4: Inactivation---------------------------------
 

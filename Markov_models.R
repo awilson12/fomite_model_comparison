@@ -48,10 +48,10 @@ for (a in 1:iter){
   
     
     if (j==1){
-      frame<-data.frame(state1=sim.mat[1,],state2=sim.mat[2,],state3=sim.mat[3,],state4=sim.mat[4,],
+      frame<-data.frame(state1=sim.mat[1,],state2=sim.mat[2,],state3=sim.mat[3,],state4=sim.mat[4,],dose=sim.mat[5,],
                         time=c(1:(duration/timestep)),a=a,j=j)
     }
-    frametemp<-data.frame(state1=sim.mat[1,],state2=sim.mat[2,],state3=sim.mat[3,],state4=sim.mat[4,],
+    frametemp<-data.frame(state1=sim.mat[1,],state2=sim.mat[2,],state3=sim.mat[3,],state4=sim.mat[4,],dose=sim.mat[5,],
                           time=c(1:(duration/timestep)),a=a,j=j)
     frame<-rbind(frame,frametemp)
   

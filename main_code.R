@@ -4,7 +4,7 @@ source('defining parameters.R')
 
 source('discrete_event_models.R')
 
-frame.save.discrete<- subset(framesave, select = c(handRtotal, timeall, a.save, j.save))
+frame.save.discrete<- subset(framesave, select = c(handRtotal, timeall, a.save, j.save,dose))
 frame.save.discrete$model<-rep("discrete",length(frame.save.discrete$handRtotal))
   
 source('Markov_models.R')
@@ -25,7 +25,7 @@ for(i in 1:iter){
   }
 }
 
-frame.save.markov<-data.frame(handRtotal=handRtotal,timeall=timeall,a.save=a.save,j.save=j.save,
+frame.save.markov<-data.frame(dose=dose,timeall=timeall,a.save=a.save,j.save=j.save,
                               model=rep("Markov",length(handRtotal)))
 
 framecombine<-rbind(frame.save.markov,frame.save.discrete)

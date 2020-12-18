@@ -46,7 +46,7 @@ lambda.3.5<-0.5*S.F[a]*TE.HF[a]*H.face
 
 handsan.markov.moments<-c(5,10,15,20) #same time as hand hygiene moments in discrete event model
 handhygiene<-c(1:duration)
-handhygiene[handhygiene==handsan.markov.moments]<-"yes"
+handhygiene[handsan.markov.moments]<-"yes"
 
 for (i in 1:duration){
   #we're assuming 1 min time steps in discrete model, so we assume the same here even though that would be a 

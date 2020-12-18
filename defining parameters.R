@@ -35,7 +35,7 @@ handsan<-rtrunc(iter,"norm",mean=1.06,sd=0.54,a=0,b=1.89)
 #-------Markov model specific parameters--------------------------
 
 #duration (# of events in discrete model translating to events within half hour)
-duration<-20
+duration<-21
 
 #frequency of contacts with fomes
 fome1.markov12<-8/duration #8 contacts per duration in min
