@@ -25,7 +25,7 @@ for(i in 1:iter){
   }
 }
 
-frame.save.markov<-data.frame(dose=dose,timeall=timeall,a.save=a.save,j.save=j.save,
+frame.save.markov<-data.frame(handRtotal,timeall=timeall,a.save=a.save,j.save=j.save,dose=dose,
                               model=rep("Markov",length(handRtotal)))
 
 framecombine<-rbind(frame.save.markov,frame.save.discrete)
@@ -35,4 +35,12 @@ require(ggpubr)
 
 windows()
 ggplot(framecombine)+geom_line(aes(x=timeall,y=handRtotal,group=interaction(a.save,j.save,model),color=model),alpha=0.3)+
+  facet_wrap(~j.save,scales="free")+scale_y_continuous(trans="log10")
+
+
+windows()
+ggplot(framecombine)+geom_violin(aes(x=model,y=dose,group=interaction(j.save,model)))+
+  scale_y_continuous(trans="log10")+
   facet_wrap(~j.save,scales="free")
+
+
