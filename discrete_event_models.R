@@ -136,6 +136,7 @@ for(a in 1:iter){
     #View(framecheck)
     
     if (j==1){
+      max.dose=max(dose)
       dosetotal=dose
       handRtotal=handR
       handLtotal=handL
@@ -143,6 +144,8 @@ for(a in 1:iter){
       fome2total=fome2
       timeall=c(0,1:duration)
       a.save=rep(a,(duration+1))
+      a.save.2=a
+      j.save.2=j
       j.save=rep(j,(duration+1))
       Tehandsurf=rep(TE.HS[a],duration)
       Tesurfhand=rep(TE.SH[a],duration)
@@ -153,6 +156,7 @@ for(a in 1:iter){
       khand=rep(inactiv.hands[a],duration)
       eventtotal=event
     }else{
+      max.dosetemp=max(dose)
       dosetemp=dose
       Tehandsurftemp=rep(TE.HS[a],duration)
       Tesurfhandtemp=rep(TE.SH[a],duration)
@@ -164,7 +168,10 @@ for(a in 1:iter){
       a.savetemp=rep(a,(duration+1))
       j.savetemp=rep(j,(duration+1))
       eventtemp=event
+      a.save.2.temp=a
+      j.save.2.temp=j
       
+      max.dose=c(max.dose,max.dosetemp)
       eventtotal<-c(eventtotal,eventtemp)
       dosetotal<-c(dosetotal,dosetemp)
       handRtotal<-c(handRtotal,handR)
@@ -182,10 +189,14 @@ for(a in 1:iter){
       a.save<-c(a.save,a.savetemp)
       j.save<-c(j.save,j.savetemp)
       
+      a.save.2<-c(a.save.2,a.save.2.temp)
+      j.save.2<-c(j.save.2,j.save.2.temp)
+      
     }
     
     frame<-data.frame(handRtotal=handRtotal,handLtotal=handLtotal,fome1total=fome1total,fome2total=fome2total,
                       timeall=timeall,a.save=a.save,j.save=j.save,dose=dose,eventtotal=eventtotal)
+    maxdose<-data.frame(max.dose=max.dose,a.save.2=a.save.2,j.save.2=j.save.2)
     param<-data.frame(Tehandsurf=Tehandsurf,Tesurfhand=Tesurfhand,totalhand=totalhand,
                       SAfome1=SAfome1,SAfome2=SAfome2,kfome=kfome,khand=khand)
   } #end of discrete model (all 4 done) loop (j)
@@ -193,9 +204,11 @@ for(a in 1:iter){
   if(a==1){
     framesave<-frame
     paramsave<-param
+    maxdoseall<-maxdose
   }else{
     framesave<-rbind(framesave,frame)
     paramsave<-rbind(paramsave,param)
+    maxdoseall<-rbind(maxdoseall,maxdose)
   }
   
 } #end of iteration loop (a)

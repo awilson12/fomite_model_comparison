@@ -30,6 +30,11 @@ frame.save.markov<-data.frame(handRtotal,timeall=timeall,a.save=a.save,j.save=j.
 
 framecombine<-rbind(frame.save.markov,frame.save.discrete)
 
+max.dose.markov.all$model<-"Markov"
+maxdoseall$model<-"Discrete Event"
+
+maxdoseplot<-rbind(max.dose.markov.all,maxdoseall)
+
 require(ggplot2)
 require(ggpubr)
 
@@ -39,7 +44,7 @@ ggplot(framecombine)+geom_line(aes(x=timeall,y=handRtotal,group=interaction(a.sa
 
 
 windows()
-ggplot(framecombine)+geom_violin(aes(x=model,y=dose,group=interaction(j.save,model)))+
+ggplot(maxdoseplot)+geom_violin(aes(x=model,y=dose,group=interaction(j.save,model)))+
   scale_y_continuous(trans="log10")+
   facet_wrap(~j.save,scales="free")
 
