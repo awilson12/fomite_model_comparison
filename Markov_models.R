@@ -14,7 +14,7 @@ for (a in 1:iter){
   
   sim.mat[1,1]<-100 #starting conc on fome 1
   sim.mat[2,1]<-5 #starting conc on fome 2
-  sim.mat[3:4,1]<-0
+  sim.mat[3:5,1]<-0
   
     for (i in 2:(duration/timestep)){
       
@@ -63,7 +63,7 @@ for (a in 1:iter){
   if(a==1){
     max.dose.markov.all=max.dose.markov
   }else{
-    rbind(max.dose.markov.all,max.dose.markov)
+    max.dose.markov.all=rbind(max.dose.markov.all,max.dose.markov)
   }
 }#end of iter loop
 
