@@ -52,7 +52,7 @@ P.2.b.total<-c(0,P.2.2.b,P.2.b)
 
 #State 3: Hands----------------------------------------
 
-lambdas.3<-c(lambda.3.1,lambda.3.2,lambda.3.4,0)
+lambdas.3<-c(lambda.3.1,lambda.3.2,lambda.3.4,lambda.3.5)
 
 lambda.3.T<-sum(lambdas.3)
 

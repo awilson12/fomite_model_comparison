@@ -51,12 +51,14 @@ for (a in 1:iter){
       frame<-data.frame(state1=sim.mat[1,],state2=sim.mat[2,],state3=sim.mat[3,],state4=sim.mat[4,],dose=sim.mat[5,],
                         time=c(1:(duration/timestep)),a=a,j=j)
       max.dose.markov=data.frame(maxdose=max(sim.mat[5,]),a=a,j=j)
+    }else{
+      frametemp<-data.frame(state1=sim.mat[1,],state2=sim.mat[2,],state3=sim.mat[3,],state4=sim.mat[4,],dose=sim.mat[5,],
+                            time=c(1:(duration/timestep)),a=a,j=j)
+      max.dose.markov.temp=data.frame(maxdose=max(sim.mat[5,]),a=a,j=j)
+      frame<-rbind(frame,frametemp)
+      max.dose.markov=rbind(max.dose.markov,max.dose.markov.temp)
     }
-    frametemp<-data.frame(state1=sim.mat[1,],state2=sim.mat[2,],state3=sim.mat[3,],state4=sim.mat[4,],dose=sim.mat[5,],
-                         time=c(1:(duration/timestep)),a=a,j=j)
-    max.dose.markov.temp=data.frame(maxdose=max(sim.mat[5,]),a=a,j=j)
-    frame<-rbind(frame,frametemp)
-    max.dose.markov=rbind(max.dose.markov,max.dose.markov.temp)
+    
   
   }#end of 4 model type loop
   save.list[[a]]<-frame
