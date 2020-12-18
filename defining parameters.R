@@ -7,6 +7,9 @@ TE.HS<-rtrunc(iter,"lnorm",-2.1,1.4,a=0,b=1)
 #TE surface->hand
 TE.SH<-rtrunc(iter,"lnorm",-2.1,1.4,a=0,b=1)
 
+#TE hand-->face
+TE.HF<-rtrunc(iter,"norm",mean=0.3390,sd=0.1318,a=0,b=1)
+
 #surface areas of fomites
 SA.fome.1<-runif(iter,10,100) #placeholder
 SA.fome.2<-runif(iter,10,100) #placeholder
@@ -14,6 +17,9 @@ SA.fome.2<-runif(iter,10,100) #placeholder
 #fraction of hand surface area for hand-to-surf contact
 S.H<-runif(iter,0.006,0.24)
 
+#fraction of hand used for hand-to-face contact
+S.F<-runif(iter,0.006,0.012)
+  
 #total hand surface area
 A.hand<-runif(iter,445,535)
 
@@ -38,3 +44,6 @@ handsan.markov<-4/duration #4 hand washes in duration in min
 
 fome1.markov34<-12/duration #12 contacts per duration in min
 fome2.markov34<-4/duration #4 contacts per duration in min
+
+#frequency of hand-to-face contacts
+H.face<-1/duration #1 contact per duration in min

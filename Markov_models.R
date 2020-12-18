@@ -10,7 +10,7 @@ for (a in 1:iter){
   for (j in 1:4){
     
   columns=length(1:(duration*(1/timestep)))
-  sim.mat<-matrix(nrow=4,ncol=columns) #convert min to one-thousandth of a minute
+  sim.mat<-matrix(nrow=5,ncol=columns) #convert min to one-thousandth of a minute
   
   sim.mat[1,1]<-100 #starting conc on fome 1
   sim.mat[2,1]<-5 #starting conc on fome 2
@@ -26,18 +26,22 @@ for (a in 1:iter){
           sim.mat[2,i]<-sim.mat[2,i-1]-sim.mat[2,i-1]*sum(P.2.b.total[2:4])
           sim.mat[3,i]<-sim.mat[3,i-1]-sim.mat[3,i-1]*P.3.b.total[4]
           sim.mat[4,i]<-sim.mat[1,i-1]*P.1.b.total[4]+sim.mat[2,i-1]*P.2.b.total[4]+sim.mat[3,i-1]*P.3.b.total[4]
+          sim.mat[5,i]<-sim.mat[5,i-1]
+          
         
         }else{
           sim.mat[1,i]<-sim.mat[1,i-1]-sim.mat[1,i-1]*sum(P.1.total[2:4])+sim.mat[3,i-1]*P.3.total[1]
           sim.mat[2,i]<-sim.mat[2,i-1]-sim.mat[2,i-1]*sum(P.2.total[1],P.2.total[3:4])+sim.mat[3,i-1]*P.3.total[2]
           sim.mat[3,i]<-sim.mat[3,i-1]-sim.mat[3,i-1]*sum(P.3.total[1:2],P.3.total[4])+sim.mat[1,i-1]*P.1.total[3]+sim.mat[2,i-1]*P.2.total[3]
           sim.mat[4,i]<-sim.mat[1,i-1]*P.1.total[4]+sim.mat[2,i-1]*P.2.total[4]+sim.mat[3,i-1]*P.3.total[4]
+          sim.mat[5,i]<-sim.mat[5,i-1]+sim.mat[3,i-1]*P.3.total[5]
         }
       }else{
         sim.mat[1,i]<-sim.mat[1,i-1]-sim.mat[1,i-1]*sum(P.1.total[2:4])+sim.mat[3,i-1]*P.3.total[1]
         sim.mat[2,i]<-sim.mat[2,i-1]-sim.mat[2,i-1]*sum(P.2.total[1],P.2.total[3:4])+sim.mat[3,i-1]*P.3.total[2]
         sim.mat[3,i]<-sim.mat[3,i-1]-sim.mat[3,i-1]*sum(P.3.total[1:2],P.3.total[4])+sim.mat[1,i-1]*P.1.total[3]+sim.mat[2,i-1]*P.2.total[3]
         sim.mat[4,i]<-sim.mat[1,i-1]*P.1.total[4]+sim.mat[2,i-1]*P.2.total[4]+sim.mat[3,i-1]*P.3.total[4]
+        sim.mat[5,i]<-sim.mat[5,i-1]+sim.mat[3,i-1]*P.3.total[5]
       }
     
     }#end of time loop

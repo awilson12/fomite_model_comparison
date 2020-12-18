@@ -4,6 +4,7 @@ states<-c("fome1","fome2","hands","inactivation")
 #state 2 = fome 2
 #state 3 = hands
 #state 4 = inactivation
+#state 5 = mouth (dose)
 
 non.fome.specific<-S.H[a]*TE.SH[a]*A.hand[a]
 non.fome.specific.2<-0.5*S.H[a]*TE.HS[a]
@@ -41,6 +42,7 @@ if(j==1 | j==3){
   lambda.3.4<-(1/10^handsan[a])*handsan.markov+inactiv.hands[a]
 }
 
+lambda.3.5<-0.5*S.F[a]*TE.HF[a]*H.face
 
 handsan.markov.moments<-c(5,10,15,20) #same time as hand hygiene moments in discrete event model
 handhygiene<-c(1:duration)
@@ -57,6 +59,5 @@ for (i in 1:duration){
       handhygsave<-c(handhygsave,handhygsavetemp)
     }
 }
-
 
 
