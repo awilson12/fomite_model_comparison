@@ -16,8 +16,8 @@ for (a in 1:iter){
   #where row in sim.mat is the state and the column is the amount of virus in that state for that timestep
   sim.mat<-matrix(nrow=5,ncol=columns) #convert min to one-thousandth of a minute
   
-  sim.mat[1,1]<-100 #starting # of viruses on fome 1
-  sim.mat[2,1]<-5 #starting # of viruses on fome 2
+  sim.mat[1,1]<-100*SA.fome.1 #starting # of viruses on fome 1, 100 per cm2
+  sim.mat[2,1]<-5*SA.fome.2 #starting # of viruses on fome 2, 5 per cm2
   sim.mat[3:5,1]<-0 #others start with zero
   
     for (i in 2:(duration/timestep)){
