@@ -66,9 +66,9 @@ for(a in 1:iter){
     handR<-rep(0,duration+1)
     handL<-rep(0,duration+1)
     fome1<-rep(NA,duration+1)
-    fome1[1]<-100
+    fome1[1]<-100 #100/cm2
     fome2<-rep(NA,duration+1)
-    fome2[1]<-5
+    fome2[1]<-5 #5/cm2
     dose<-rep(NA,duration+1)
     dose[1]<-0
     
@@ -231,11 +231,9 @@ for(a in 1:iter){
   if(a==1){
     framesave<-frame
     paramsave<-param
-    maxdoseall<-maxdose
   }else{
     framesave<-rbind(framesave,frame)
     paramsave<-rbind(paramsave,param)
-    maxdoseall<-rbind(maxdoseall,maxdose)
   }
   
 } #end of iteration loop (a)

@@ -25,9 +25,10 @@ frame.final.dose<-data.frame(maxdose=frame.final.dose$dose,a=frame.final.dose$a.
 
 source('Markov_models.R')
 
-#saving output from Markov models
+#saving output from Markov models per minute to avoid memory issues
 for(i in 1:iter){
   list<-save.list[[i]]
+  list<-list[list$time%%(1/timestep)==0,]
   if(i==1){
     handRtotal<-list$state3/2
     timeall<-list$time*timestep
@@ -39,14 +40,21 @@ for(i in 1:iter){
     timealltemp<-list$time*timestep
     atemp<-list$a
     jtemp<-list$j
+    dosetemp<-max(list$dose)
+    
+    timeall<-c(timeall,timealltemp)
+    j.save<-c(j.save,jtemp)
+    a.save<-c(a.save,atemp)
+    handRtotal<-c(handRtotal,handRtotaltemp)
   }
 }
 
-frame.save.markov<-data.frame(handRtotal,timeall=timeall,a.save=a.save,j.save=j.save,dose=dose,
+frame.save.markov<-data.frame(handRtotal,timeall=timeall,a.save=a.save,j.save=j.save,
                               model=rep("Markov",length(handRtotal)))
 
 #Combining discrete event and markov model outputs-------------------------------------------------------------------------
-
+frame.save.discrete<- subset(framesave, select = c(handRtotal, timeall, a.save, j.save))
+frame.save.discrete$model<-"Discrete"
 framecombine<-rbind(frame.save.markov,frame.save.discrete)
 
 #combining dose estimates
@@ -62,7 +70,7 @@ require(ggpubr)
 
 windows()
 ggplot(framecombine)+geom_line(aes(x=timeall,y=handRtotal,group=interaction(a.save,j.save,model),color=model),alpha=0.3)+
-  facet_wrap(~j.save,scales="free")+scale_y_continuous(trans="log10")
+  facet_wrap(~j.save,scales="free")
 
 #violin plots to compare estimated doses among models
 windows()
