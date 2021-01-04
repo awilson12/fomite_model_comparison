@@ -1,6 +1,10 @@
 
+#Rows correspond to transitional probabilities from the state that corresponds to row number to the state that corresponds to the column number
 
 #here since all transitions are in units of mi^-1, delta T = 1 min
+
+#Wherever the probability of staying in the same state is not equal to 1, the probabilities are calculated in the P.i.i, P.i, and P.i.total lines, where
+#i is the row of interest
 
 # ROW 1------------------------------------------------------------------------------------
 
@@ -16,7 +20,7 @@ P.1<-(1-P.1.1)*(lambdas.1/lambda.1.T)
 
 P.1.total<-c(P.1.1,P.1)
 
-#when hand sanitizer used...
+#when hand sanitizer used... (for models that have separate transitional probability matrices for the timed hand hygiene moments)
 lambdas.1.b<-c(0,0,lambda.1.4,0)
 
 lambda.1.b.T<-sum(lambdas.1.b)
@@ -39,7 +43,7 @@ P.2<-(1-P.2.2)*(lambdas.2/lambda.2.T)
 
 P.2.total<-c(0,P.2.2,P.2)
 
-#when hand sanitizer used...
+#when hand sanitizer used... (for models that have separate transitional probability matrices for the timed hand hygiene moments)
 lambdas.2.b<-c(0,lambda.2.4,0)
 
 lambda.2.b.T<-sum(lambdas.2.b)
