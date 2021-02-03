@@ -91,7 +91,7 @@ for(a in 1:iter){
           #if they use the right hand...
           
           #conc on fome 1 changed based on what is transfered from handR and what's lost due to inactivation and transfer to hand
-          fome1[i]<-fome1[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.1[a]))*(TE.SH[a]*fome1[i-1]*inactiv.fome[a]-TE.HS[a]*handR[i-1]*exp(-inactiv.hands[a]))
+          fome1[i]<-fome1[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.1[a]))*(TE.SH[a]*fome1[i-1]*exp(-inactiv.fome[a])-TE.HS[a]*handR[i-1]*exp(-inactiv.hands[a]))
           #conc on handR changed based on what is transferred from fomite 1 and what's lost due to inactivation and transfer from hand
           handR[i]<-handR[i-1]*exp(-inactiv.hands[a])-TE.HS[a]*S.H[a]*handR[i-1]*exp(-inactiv.hands[a])+TE.SH[a]*S.H[a]*fome1[i-1]*exp(-inactiv.fome[a])
           
