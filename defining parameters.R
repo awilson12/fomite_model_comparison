@@ -15,10 +15,10 @@ SA.fome.1<-runif(iter,10,100) #placeholder
 SA.fome.2<-runif(iter,10,100) #placeholder
 
 #fraction of hand surface area for hand-to-surf contact
-S.H<-runif(iter,0.006,0.25)
+S.H<-runif(iter,0.008,0.25)
 
 #fraction of hand used for hand-to-face contact
-S.F<-runif(iter,0.006,0.012)
+S.F<-runif(iter,0.008,0.012)
   
 #total hand surface area
 A.hand<-runif(iter,445,535)
