@@ -70,11 +70,11 @@ framecombine<-rbind(frame.save.markov,frame.save.discrete)
 #combining dose estimates
 final.dose.markov=finaldose
 
-finaldoses<-c(final.dose.discrete,final.dose.markov)
+#finaldoses<-c(final.dose.discrete,final.dose.markov)
 
-maxdoseplot<-data.frame(maxdose=finaldoses,
-                        j=c(frame.save.discrete$j.save,frame.save.markov$j.save),
-                        model=c(frame.save.discrete$model,frame.save.markov$model))
+#maxdoseplot<-data.frame(maxdose=finaldoses,
+#                        j=c(frame.save.discrete$j.save,frame.save.markov$j.save),
+#                        model=c(frame.save.discrete$model,frame.save.markov$model))
 
 #Plots---------------------------------------------------------------------------------------------------------------------
 
@@ -100,11 +100,11 @@ ggplot(framecombine)+geom_line(aes(x=timeall,y=dose,group=interaction(a.save,j.s
   facet_wrap(~j.save,scales="free")
 
 #violin plots to compare estimated doses among models
-windows()
-ggplot(maxdoseplot)+geom_violin(aes(x=j,y=maxdose,group=interaction(j,model),fill=model),alpha=0.3,draw_quantiles = c(0.25,0.5,0.75))+
-  scale_y_continuous(trans="log10",name=expression("Log"[10]*phantom(x)*"Dose"))+
-  scale_x_continuous(name="Model")+
-  scale_fill_discrete(name="",labels=c("Discrete","Markov"))+
-  theme_pubr()+
-  theme(axis.text=element_text(size=20),axis.title=element_text(size=20),legend.text=element_text(size=20))
+#windows()
+#ggplot(maxdoseplot)+geom_violin(aes(x=j,y=maxdose,group=interaction(j,model),fill=model),alpha=0.3,draw_quantiles = c(0.25,0.5,0.75))+
+#  scale_y_continuous(trans="log10",name=expression("Log"[10]*phantom(x)*"Dose"))+
+#  scale_x_continuous(name="Model")+
+#  scale_fill_discrete(name="",labels=c("Discrete","Markov"))+
+#  theme_pubr()+
+#  theme(axis.text=element_text(size=20),axis.title=element_text(size=20),legend.text=element_text(size=20))
 
