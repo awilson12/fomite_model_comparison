@@ -11,8 +11,8 @@ TE.SH<-rtrunc(iter,"lnorm",-2.1,1.4,a=0,b=1)
 TE.HF<-rtrunc(iter,"norm",mean=0.3390,sd=0.1318,a=0,b=1)
 
 #surface areas of fomites
-SA.fome.1<-rep(100,iter) #placeholder
-SA.fome.2<-rep(100,iter)  #placeholder
+SA.fome.1<-runif(150,250,iter) #placeholder
+SA.fome.2<-runif(150,250,iter)  #placeholder
 
 #fraction of hand surface area for hand-to-surf contact
 S.H<-runif(iter,0.008,0.25)
