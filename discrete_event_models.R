@@ -96,7 +96,7 @@ for(a in 1:iter){
           handR[i]<-handR[i-1]*exp(-inactiv.hands[a])-TE.HS[a]*S.H[a]*handR[i-1]*exp(-inactiv.hands[a])+TE.SH[a]*S.H[a]*fome1[i-1]*exp(-inactiv.fome[a])
           
           #conc on left hand only changed by inactivation
-          handL[i]<-handL[i-1]*exp(inactiv.hands[a])
+          handL[i]<-handL[i-1]*exp(-inactiv.hands[a])
           
         }else{
           #if use left hand, same pattern as above but with focus on left hand as opposed to right hand
@@ -104,7 +104,7 @@ for(a in 1:iter){
           fome1[i]<-fome1[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.1[a]))*((TE.SH[a]*fome1[i-1]*inactiv.fome[a]-TE.HS[a]*handL[i-1]*exp(-inactiv.hands[a])))
           handL[i]<-handL[i-1]*exp(-inactiv.hands[a])-TE.HS[a]*S.H[a]*handL[i-1]*exp(-inactiv.hands[a])+TE.SH[a]*S.H[a]*fome1[i-1]*exp(-inactiv.fome[a])
           
-          handR[i]<-handR[i-1]*exp(inactiv.hands[a])
+          handR[i]<-handR[i-1]*exp(-inactiv.hands[a])
         }
         
       }else if (event[i]==2){
@@ -118,14 +118,14 @@ for(a in 1:iter){
           fome2[i]<-fome2[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.2[a]))*((TE.SH[a]*fome2[i-1]*inactiv.fome[a]-TE.HS[a]*handR[i-1]*exp(-inactiv.hands[a])))
           handR[i]<-handR[i-1]*exp(-inactiv.hands[a])-TE.HS[a]*S.H[a]*handR[i-1]*exp(-inactiv.hands[a])+TE.SH[a]*S.H[a]*fome2[i-1]*exp(-inactiv.fome[a])
           
-          handL[i]<-handL[i-1]*exp(inactiv.hands[a])
+          handL[i]<-handL[i-1]*exp(-inactiv.hands[a])
           
         }else{
           
           fome2[i]<-fome2[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.2[a]))*(TE.SH[a]*fome2[i-1]*inactiv.fome[a]-TE.HS[a]*handL[i-1]*exp(-inactiv.hands[a]))
           handL[i]<-handL[i-1]*exp(-inactiv.hands[a])-TE.HS[a]*S.H[a]*handL[i-1]*exp(-inactiv.hands[a])+TE.SH[a]*S.H[a]*fome2[i-1]*exp(-inactiv.fome[a])
           
-          handR[i]<-handR[i-1]*exp(inactiv.hands[a])
+          handR[i]<-handR[i-1]*exp(-inactiv.hands[a])
           
         }
         
