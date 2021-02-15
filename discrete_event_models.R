@@ -91,7 +91,7 @@ for(a in 1:iter){
           #if they use the right hand...
           
           #conc on fome 1 changed based on what is transfered from handR and what's lost due to inactivation and transfer to hand
-          fome1[i]<-fome1[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.1[a]))*(TE.SH[a]*fome1[i-1]*exp(-inactiv.fome[a])-TE.HS[a]*handR[i-1]*exp(-inactiv.hands[a]))
+          fome1[i]<-fome1[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.1[a]))*((TE.SH[a]*fome1[i-1]*exp(-inactiv.fome[a])-TE.HS[a]*handR[i-1]*exp(-inactiv.hands[a])))
           #conc on handR changed based on what is transferred from fomite 1 and what's lost due to inactivation and transfer from hand
           handR[i]<-handR[i-1]*exp(-inactiv.hands[a])-TE.HS[a]*S.H[a]*handR[i-1]*exp(-inactiv.hands[a])+TE.SH[a]*S.H[a]*fome1[i-1]*exp(-inactiv.fome[a])
           
@@ -101,7 +101,7 @@ for(a in 1:iter){
         }else{
           #if use left hand, same pattern as above but with focus on left hand as opposed to right hand
           
-          fome1[i]<-fome1[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.1[a]))*(TE.SH[a]*fome1[i-1]*inactiv.fome[a]-TE.HS[a]*handL[i-1]*exp(-inactiv.hands[a]))
+          fome1[i]<-fome1[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.1[a]))*((TE.SH[a]*fome1[i-1]*inactiv.fome[a]-TE.HS[a]*handL[i-1]*exp(-inactiv.hands[a])))
           handL[i]<-handL[i-1]*exp(-inactiv.hands[a])-TE.HS[a]*S.H[a]*handL[i-1]*exp(-inactiv.hands[a])+TE.SH[a]*S.H[a]*fome1[i-1]*exp(-inactiv.fome[a])
           
           handR[i]<-handR[i-1]*exp(inactiv.hands[a])
@@ -115,7 +115,7 @@ for(a in 1:iter){
         
         if(hand[i]=="R"){
           
-          fome2[i]<-fome2[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.2[a]))*(TE.SH[a]*fome2[i-1]*inactiv.fome[a]-TE.HS[a]*handR[i-1]*exp(-inactiv.hands[a]))
+          fome2[i]<-fome2[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.2[a]))*((TE.SH[a]*fome2[i-1]*inactiv.fome[a]-TE.HS[a]*handR[i-1]*exp(-inactiv.hands[a])))
           handR[i]<-handR[i-1]*exp(-inactiv.hands[a])-TE.HS[a]*S.H[a]*handR[i-1]*exp(-inactiv.hands[a])+TE.SH[a]*S.H[a]*fome2[i-1]*exp(-inactiv.fome[a])
           
           handL[i]<-handL[i-1]*exp(inactiv.hands[a])
