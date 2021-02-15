@@ -17,7 +17,7 @@ source('discrete_event_models.R')
 #saving output from discrete event models
 frame.save.discrete<- subset(framesave, select = c(handRtotal,handLtotal,fome1total,fome2total,timeall, a.save, j.save,dose))
 frame.save.discrete$model<-rep("Discrete",length(frame.save.discrete$handRtotal))
-frame.save.discrete$hands<-frame.save.discrete$handRtotal+frame.save.discrete$handLtotal
+frame.save.discrete$hands<-(frame.save.discrete$handRtotal+frame.save.discrete$handLtotal)/2
 frame.save.discrete<-subset(frame.save.discrete,select=c(-handRtotal,-handLtotal))
 
 final.dose.discrete<-frame.save.discrete$dose[frame.save.discrete$timeall==21]
