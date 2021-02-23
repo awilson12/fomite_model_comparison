@@ -97,7 +97,7 @@ ggplot(framecombine)+geom_line(aes(x=timeall,y=hands,group=interaction(a.save,j.
 
 windows()
 ggplot(framecombine)+geom_line(aes(x=timeall,y=dose,group=interaction(a.save,j.save,model),color=model),alpha=0.3)+
-  facet_wrap(~j.save,scales="free")
+  facet_wrap(~j.save,scales="free")+scale_y_continuous(limits=c(0,150))
 
 #violin plots to compare estimated doses among models
 #windows()
