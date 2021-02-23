@@ -24,7 +24,7 @@ final.dose.discrete<-frame.save.discrete$dose[frame.save.discrete$timeall==21]
 
 #run code for Markov models-------------------------------------------------------------------------------------------------
 
-source('Markov_models.R')
+source('Markov_models_v2.R')
 
 #saving output from Markov models per minute to avoid memory issues
 for(i in 1:iter){
