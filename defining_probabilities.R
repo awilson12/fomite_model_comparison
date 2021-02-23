@@ -85,3 +85,20 @@ P.4.total<-c(0,0,0,1,0) #absorbing state
 
 P.5.total<-c(0,0,0,0,1)
 
+P.all<-matrix(nrow=5,ncol=5)
+P.all.b<-matrix(nrow=5,ncol=5)
+
+P.all[1,]<-P.1.total
+P.all[2,]<-P.2.total
+P.all[3,]<-P.3.total
+P.all[4,]<-P.4.total
+P.all[5,]<-P.5.total
+
+P.all.b[1,]<-P.1.b.total
+P.all.b[2,]<-P.2.b.total
+P.all.b[3,]<-P.3.b.total
+P.all.b[4,]<-P.4.total
+P.all.b[5,]<-P.5.total
+
+
+
