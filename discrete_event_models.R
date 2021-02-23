@@ -166,8 +166,8 @@ for(a in 1:iter){
       }
     } #end of simulation loop (i)
     
-    #framecheck<-data.frame(handR=handR,handL=handL,fome1=fome1,event=event,hand=hand)
-    #View(framecheck)
+    framecheck<-data.frame(handR=handR,handL=handL,fome1=fome1,event=event,hand=hand)
+    View(framecheck)
     
     #saving outputs
     
