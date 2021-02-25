@@ -48,14 +48,14 @@ if(j==1 | j==3){
   #hand hygiene included in loss
   #loss due to hand hygiene
   handhygieneloss<-(1/10^handsan[a])*handsan.markov*timestep
-  lambda.3.4<-(1/10^handsan[a])*handsan.markov+inactiv.hands[a]*timestep
+  lambda.3.4<-((1/10^handsan[a])*handsan.markov+inactiv.hands[a])*timestep
 }
 
 #loss from hands due to dose moment (hand-to-mouth contact)
 lambda.3.5<-0.5*S.F[a]*TE.HF[a]*H.face*timestep
 
 #timing of hand hygiene moments
-handsan.markov.moments<-c(5,10,15,20) #same time as hand hygiene moments in discrete event model
+handsan.markov.moments<-c(6,11,16,21) #same time as hand hygiene moments in discrete event model
 #making a vector where "yes" corresponds to hand hygiene moment
 handhygiene<-c(1:duration)
 handhygiene[handsan.markov.moments]<-"yes"

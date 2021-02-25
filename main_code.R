@@ -21,6 +21,8 @@ frame.save.discrete$hands<-(frame.save.discrete$handRtotal+frame.save.discrete$h
 frame.save.discrete<-subset(frame.save.discrete,select=c(-handRtotal,-handLtotal))
 
 final.dose.discrete<-frame.save.discrete$dose[frame.save.discrete$timeall==21]
+a.save.dose.discrete<-frame.save.discrete$a[frame.save.discrete$timeall==21]
+j.save.dose.discrete<-frame.save.discrete$j[frame.save.discrete$timeall==21]
 
 #run code for Markov models-------------------------------------------------------------------------------------------------
 
@@ -38,7 +40,9 @@ for(i in 1:iter){
     timeall<-list$time*timestep
     a.save<-list$a
     j.save<-list$j
-    #finaldose<-max(list$dose)
+    a.save.dose<-rep(list$a[1],4)
+    j.save.dose<-c(1,2,3,4)
+    finaldose<-c(max(list$dose[list$j==1]),max(list$dose[list$j==2]),max(list$dose[list$j==3]),max(list$dose[list$j==4]))
   }
   else{
     handstemp<-list$state3
@@ -48,16 +52,20 @@ for(i in 1:iter){
     atemp<-list$a
     jtemp<-list$j
     dosetemp<-list$dose
-    finaldosetemp<-max(list$dose)
+    finaldosetemp<-c(max(list$dose[list$j==1]),max(list$dose[list$j==2]),max(list$dose[list$j==3]),max(list$dose[list$j==4]))
+    a.save.dosetemp<-rep(list$a[1],4)
+    j.save.dosetemp<-c(1,2,3,4)
     
     timeall<-c(timeall,timealltemp)
     j.save<-c(j.save,jtemp)
     a.save<-c(a.save,atemp)
+    j.save.dose<-c(j.save.dose,j.save.dosetemp)
+    a.save.dose<-c(a.save.dose,a.save.dosetemp)
     hands<-c(hands,handstemp)
     fome1total<-c(fome1total,fome1totaltemp)
     fome2total<-c(fome2total,fome2totaltemp)
     dose<-c(dose,dosetemp)
-    #finaldose<-c(finaldose,finaldosetemp)
+    finaldose<-c(finaldose,finaldosetemp)
   }
 }
 
@@ -70,11 +78,12 @@ framecombine<-rbind(frame.save.markov,frame.save.discrete)
 #combining dose estimates
 final.dose.markov=finaldose
 
-#finaldoses<-c(final.dose.discrete,final.dose.markov)
+finaldoses<-c(final.dose.discrete,final.dose.markov)
 
-#maxdoseplot<-data.frame(maxdose=finaldoses,
-#                        j=c(frame.save.discrete$j.save,frame.save.markov$j.save),
-#                        model=c(frame.save.discrete$model,frame.save.markov$model))
+maxdoseplot<-data.frame(maxdose=finaldoses,
+                        j=c(j.save.dose.discrete,j.save.dose),
+                        a=c(a.save.dose.discrete,a.save.dose),
+                        model=c(rep("discrete",length(final.dose.discrete)),rep("markov",length(final.dose.markov))))
 
 #Plots---------------------------------------------------------------------------------------------------------------------
 
@@ -83,28 +92,74 @@ require(ggpubr)
 
 #line plot to compare concentration on hands over time among models
 
-windows()
-ggplot(framecombine)+geom_line(aes(x=timeall,y=fome1total,group=interaction(a.save,j.save,model),color=model),alpha=0.3)+
-  facet_wrap(~j.save,scales="free")
+A<-ggplot(framecombine)+geom_line(aes(x=timeall,y=fome1total,group=interaction(a.save,j.save,model),color=model),alpha=0.2)+
+  facet_wrap(~j.save,scales="free")+theme_pubr()+theme(axis.title=element_text(size=18),axis.text=element_text(size=18),strip.text=element_text(size=18),
+                                                       legend.text = element_text(size=16))+
+  scale_color_discrete(name="")+
+  scale_x_continuous(name="Time (minutes)")+scale_y_continuous(name=expression("Fomite 1: Viral particles/cm"^2*""))+guides(colour = guide_legend(override.aes = list(alpha = 1,size=2)))
+
+B<-ggplot(framecombine)+geom_line(aes(x=timeall,y=fome2total,group=interaction(a.save,j.save,model),color=model),alpha=0.2)+
+  facet_wrap(~j.save,scales="free")+
+  theme_pubr()+
+  theme(axis.title=element_text(size=18),axis.text=element_text(size=18),strip.text=element_text(size=18),
+         legend.text = element_text(size=16))+
+  scale_color_discrete(name="")+
+  scale_x_continuous(name="Time (minutes)")+scale_y_continuous(name=expression("Fomite 2: Viral particles/cm"^2*""))+guides(colour = guide_legend(override.aes = list(alpha = 1,size=2)))
+
+C<-ggplot(framecombine)+geom_line(aes(x=timeall,y=hands,group=interaction(a.save,j.save,model),color=model),alpha=0.2)+
+  facet_wrap(~j.save,scales="free")+
+  theme_pubr()+
+  theme(axis.title=element_text(size=18),axis.text=element_text(size=18),strip.text=element_text(size=18),
+        legend.text = element_text(size=16))+
+  scale_color_discrete(name="")+
+  scale_x_continuous(name="Time (minutes)")+scale_y_continuous(name=expression("Hands: Viral particles/cm"^2*""))+guides(colour = guide_legend(override.aes = list(alpha = 1,size=2)))
+
+
+#ggplot(framecombine[framecombine$model=="Discrete",])+geom_line(aes(x=timeall,y=hands,group=interaction(a.save,j.save,model),color=model),alpha=0.2)+
+#  facet_wrap(~j.save,scales="free")+
+#  theme_pubr()+
+#  theme(axis.title=element_text(size=18),axis.text=element_text(size=18),strip.text=element_text(size=18),
+#        legend.text = element_text(size=16))+
+#  scale_color_discrete(name="")+
+#  scale_x_continuous(name="Time (minutes)")+scale_y_continuous(name=expression("Hands: Viral particles/cm"^2*""))+guides(colour = guide_legend(override.aes = list(alpha = 1,size=2)))
+
+D<-ggplot(framecombine)+geom_line(aes(x=timeall,y=dose,group=interaction(a.save,j.save,model),color=model),alpha=0.2)+
+  facet_wrap(~j.save,scales="free")+
+  theme_pubr()+
+  theme(axis.title=element_text(size=18),axis.text=element_text(size=18),strip.text=element_text(size=18),
+        legend.text = element_text(size=16))+
+  scale_color_discrete(name="")+
+  scale_x_continuous(name="Time (minutes)")+scale_y_continuous(name="Dose")+guides(colour = guide_legend(override.aes = list(alpha = 1,size=2)))
 
 windows()
-ggplot(framecombine)+geom_line(aes(x=timeall,y=fome2total,group=interaction(a.save,j.save,model),color=model),alpha=0.3)+
-  facet_wrap(~j.save,scales="free")
+ggarrange(A,B,C,nrow=1,common.legend = TRUE)
 
-windows()
-ggplot(framecombine)+geom_line(aes(x=timeall,y=hands,group=interaction(a.save,j.save,model),color=model),alpha=0.3)+
-  facet_wrap(~j.save,scales="free")
-
-windows()
-ggplot(framecombine)+geom_line(aes(x=timeall,y=dose,group=interaction(a.save,j.save,model),color=model),alpha=0.3)+
-  facet_wrap(~j.save,scales="free")+scale_y_continuous(limits=c(0,150))
+maxdoseplot$symmetry<-NA
+maxdoseplot$symmetry[maxdoseplot$j==1 | maxdoseplot$j==2]<-"Symmetric Contact Frequency"
+maxdoseplot$symmetry[maxdoseplot$j==3 | maxdoseplot$j==4]<-"Asymmetric Contact Frequency"
 
 #violin plots to compare estimated doses among models
-#windows()
-#ggplot(maxdoseplot)+geom_violin(aes(x=j,y=maxdose,group=interaction(j,model),fill=model),alpha=0.3,draw_quantiles = c(0.25,0.5,0.75))+
-#  scale_y_continuous(trans="log10",name=expression("Log"[10]*phantom(x)*"Dose"))+
-#  scale_x_continuous(name="Model")+
-#  scale_fill_discrete(name="",labels=c("Discrete","Markov"))+
-#  theme_pubr()+
-#  theme(axis.text=element_text(size=20),axis.title=element_text(size=20),legend.text=element_text(size=20))
+windows()
+ggplot(maxdoseplot)+geom_violin(aes(x=model,y=maxdose,group=interaction(as.character(j),model),fill=as.character(j)),alpha=0.3,draw_quantiles = c(0.25,0.5,0.75))+
+  scale_y_continuous(trans="log10",name=expression("Log"[10]*phantom(x)*"Dose"))+
+  scale_x_discrete(name="",labels=c("Discrete","Markov"))+
+  scale_fill_discrete(name="Model Scenario")+
+  theme_pubr()+
+  theme(axis.text=element_text(size=20),axis.title=element_text(size=20),legend.text=element_text(size=20),strip.text=element_text(size=18))+
+  facet_wrap(~symmetry)
+
+
+sumstat<-function(model=model,j=j){
+  print("Summary:")
+  print(summary(maxdoseplot$maxdose[maxdoseplot$model==model & maxdoseplot$j==j]))
+  
+  print("IQR:")
+  print(IQR(maxdoseplot$maxdose[maxdoseplot$model==model & maxdoseplot$j==j]))
+  
+  print("SD:")
+  print(sd(maxdoseplot$maxdose[maxdoseplot$model==model & maxdoseplot$j==j]))
+  }
+
+
+sumstat(model="discrete",j=1)
 

@@ -12,7 +12,7 @@
 for(a in 1:iter){
   
   #designate timing of face contact
-  facecontact<-sample(c(1:20),1)
+  facecontact<-sample(c(2:21),1)
   
   #these event patterns correspond to figures in current manuscript draft
   
@@ -26,29 +26,30 @@ for(a in 1:iter){
   
   #timing of hand-to-mouth contact
   
-  if(facecontact!=1 & facecontact!=20){
+  #if(facecontact!=1 & facecontact!=20){
     #the first position correspondes to time zero, or 0 event
     #this is followed by the events before the timing of the hand-to-face contact
     #followed by the events that follow the hand-to-face contact
+  if(facecontact<21){
     discrete.1<-c(0,discrete.1[1:(facecontact-1)],4,discrete.1[facecontact:20])
     discrete.2<-c(0,discrete.2[1:(facecontact-1)],4,discrete.2[facecontact:20])
     discrete.3<-c(0,discrete.3[1:(facecontact-1)],4,discrete.3[facecontact:20])
     discrete.4<-c(0,discrete.4[1:(facecontact-1)],4,discrete.4[facecontact:20])
-  }else if (facecontact==1){
-    #if the hand-to-face contact happens first, we place it before the other events
-    discrete.1<-c(0,4,discrete.1)
-    discrete.2<-c(0,4,discrete.2)
-    discrete.3<-c(0,4,discrete.3)
-    discrete.4<-c(0,4,discrete.4)
-    #print('yes')
   }else{
-    #if the hand-to-face contact happens last, we place it after the other events
     discrete.1<-c(0,discrete.1,4)
     discrete.2<-c(0,discrete.2,4)
     discrete.3<-c(0,discrete.3,4)
     discrete.4<-c(0,discrete.4,4)
   }
   
+  #}else if (facecontact==1){
+    #if the hand-to-face contact happens first, we place it before the other events
+   # discrete.1<-c(0,4,discrete.1)
+  #  discrete.2<-c(0,4,discrete.2)
+  #  discrete.3<-c(0,4,discrete.3)
+  #  discrete.4<-c(0,4,discrete.4)
+    #print('yes')
+
   #matrix where the row corresponds to the discrete event model and the column
   #corresponds to the event # where we track concentration changes and doses per event
   matrix<-matrix(nrow=4,ncol=length(discrete.1))
@@ -101,7 +102,7 @@ for(a in 1:iter){
         }else{
           #if use left hand, same pattern as above but with focus on left hand as opposed to right hand
           
-          fome1[i]<-fome1[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.1[a]))*((TE.SH[a]*fome1[i-1]*inactiv.fome[a]-TE.HS[a]*handL[i-1]*exp(-inactiv.hands[a])))
+          fome1[i]<-fome1[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.1[a]))*((TE.SH[a]*fome1[i-1]*exp(-inactiv.fome[a])-TE.HS[a]*handL[i-1]*exp(-inactiv.hands[a])))
           handL[i]<-handL[i-1]*exp(-inactiv.hands[a])-TE.HS[a]*S.H[a]*handL[i-1]*exp(-inactiv.hands[a])+TE.SH[a]*S.H[a]*fome1[i-1]*exp(-inactiv.fome[a])
           
           handR[i]<-handR[i-1]*exp(-inactiv.hands[a])
@@ -115,14 +116,14 @@ for(a in 1:iter){
         
         if(hand[i]=="R"){
           
-          fome2[i]<-fome2[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.2[a]))*((TE.SH[a]*fome2[i-1]*inactiv.fome[a]-TE.HS[a]*handR[i-1]*exp(-inactiv.hands[a])))
+          fome2[i]<-fome2[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.2[a]))*((TE.SH[a]*fome2[i-1]*exp(-inactiv.fome[a])-TE.HS[a]*handR[i-1]*exp(-inactiv.hands[a])))
           handR[i]<-handR[i-1]*exp(-inactiv.hands[a])-TE.HS[a]*S.H[a]*handR[i-1]*exp(-inactiv.hands[a])+TE.SH[a]*S.H[a]*fome2[i-1]*exp(-inactiv.fome[a])
           
           handL[i]<-handL[i-1]*exp(-inactiv.hands[a])
           
         }else{
           
-          fome2[i]<-fome2[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.2[a]))*(TE.SH[a]*fome2[i-1]*inactiv.fome[a]-TE.HS[a]*handL[i-1]*exp(-inactiv.hands[a]))
+          fome2[i]<-fome2[i-1]*exp(-inactiv.fome[a])-(S.H[a]*(A.hand[a]/SA.fome.2[a]))*(TE.SH[a]*fome2[i-1]*exp(-inactiv.fome[a])-TE.HS[a]*handL[i-1]*exp(-inactiv.hands[a]))
           handL[i]<-handL[i-1]*exp(-inactiv.hands[a])-TE.HS[a]*S.H[a]*handL[i-1]*exp(-inactiv.hands[a])+TE.SH[a]*S.H[a]*fome2[i-1]*exp(-inactiv.fome[a])
           
           handR[i]<-handR[i-1]*exp(-inactiv.hands[a])
@@ -166,8 +167,8 @@ for(a in 1:iter){
       }
     } #end of simulation loop (i)
     
-    framecheck<-data.frame(handR=handR,handL=handL,fome1=fome1,event=event,hand=hand)
-    View(framecheck)
+    framecheck<-data.frame(handR=handR,handL=handL,fome1=fome1,event=event,hand=hand,dose=dose)
+    #View(framecheck)
     
     #saving outputs
     
@@ -222,7 +223,7 @@ for(a in 1:iter){
   } #end of discrete model (all 4 done) loop (j)
   
   frame<-data.frame(handRtotal=handRtotal,handLtotal=handLtotal,fome1total=fome1total,fome2total=fome2total,
-                    timeall=timeall,a.save=a.save,j.save=j.save,dose=dose,eventtotal=eventtotal)
+                    timeall=timeall,a.save=a.save,j.save=j.save,dose=dosetotal,eventtotal=eventtotal)
   param<-data.frame(Tehandsurf=Tehandsurf,Tesurfhand=Tesurfhand,totalhand=totalhand,
                     SAfome1=SAfome1,SAfome2=SAfome2,kfome=kfome,khand=khand)
   
