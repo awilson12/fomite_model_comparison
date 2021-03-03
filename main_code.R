@@ -3,7 +3,7 @@
 rm(list = ls())
 
 #iteration and time step per scenario
-iter<-1000
+iter<-5000
 timestep<-0.001
 
 #run code for defining parameters------------------------------------------------------------------------------------------
@@ -85,34 +85,57 @@ maxdoseplot<-data.frame(maxdose=finaldoses,
                         a=c(a.save.dose.discrete,a.save.dose),
                         model=c(rep("discrete",length(final.dose.discrete)),rep("markov",length(final.dose.markov))))
 
+write.csv(framecombine,'frame_combine.csv')
+write.csv(maxdoseplot,'maxdoseplot.csv')
+
 #Plots---------------------------------------------------------------------------------------------------------------------
 
 require(ggplot2)
 require(ggpubr)
 
+
+#checking effect of iteration
+maxdoseplotmarkov<-data.frame(maxdose=final.dose.markov,a=a.save.dose,j=j.save.dose)
+
+maxdoseplotmarkov$symmetry<-NA
+maxdoseplotmarkov$symmetry[maxdoseplotmarkov$j==1 | maxdoseplotmarkov$j==2]<-"Symmetric Contact Frequency"
+maxdoseplotmarkov$symmetry[maxdoseplotmarkov$j==3 | maxdoseplotmarkov$j==4]<-"Asymmetric Contact Frequency"
+
+#appears the 5,000 iter results look similar on the top as the 1,000 iter results
+ggplot(maxdoseplotmarkov)+geom_violin(aes(x=symmetry,group=as.character(j),y=maxdose))+
+  scale_y_continuous(trans="log10")
+
+#untransformed, you see the top tails, but these tails taper off on a log10 scale much faster than the lower tails
+ggplot(maxdoseplotmarkov)+geom_violin(aes(x=symmetry,group=as.character(j),y=maxdose))
+
+#checking relative to y scale used for direct comparison to figure 4
+ggplot(maxdoseplotmarkov)+geom_violin(aes(x=symmetry,group=as.character(j),y=maxdose))+
+  scale_y_continuous(trans="log10",limits=c(1e-4,1e2))
+
+
 #line plot to compare concentration on hands over time among models
 
-A<-ggplot(framecombine)+geom_line(aes(x=timeall,y=fome1total,group=interaction(a.save,j.save,model),color=model),alpha=0.2)+
-  facet_wrap(~j.save,scales="free")+theme_pubr()+theme(axis.title=element_text(size=18),axis.text=element_text(size=18),strip.text=element_text(size=18),
-                                                       legend.text = element_text(size=16))+
-  scale_color_discrete(name="")+
-  scale_x_continuous(name="Time (minutes)")+scale_y_continuous(name=expression("Fomite 1: Viral particles/cm"^2*""))+guides(colour = guide_legend(override.aes = list(alpha = 1,size=2)))
+#A<-ggplot(framecombine)+geom_line(aes(x=timeall,y=fome1total,group=interaction(a.save,j.save,model),color=model),alpha=0.2)+
+#  facet_wrap(~j.save,scales="free")+theme_pubr()+theme(axis.title=element_text(size=18),axis.text=element_text(size=18),strip.text=element_text(size=18),
+#                                                       legend.text = element_text(size=16))+
+#  scale_color_discrete(name="")+
+#  scale_x_continuous(name="Time (minutes)")+scale_y_continuous(name=expression("Fomite 1: Viral particles/cm"^2*""))+guides(colour = guide_legend(override.aes = list(alpha = 1,size=2)))
 
-B<-ggplot(framecombine)+geom_line(aes(x=timeall,y=fome2total,group=interaction(a.save,j.save,model),color=model),alpha=0.2)+
-  facet_wrap(~j.save,scales="free")+
-  theme_pubr()+
-  theme(axis.title=element_text(size=18),axis.text=element_text(size=18),strip.text=element_text(size=18),
-         legend.text = element_text(size=16))+
-  scale_color_discrete(name="")+
-  scale_x_continuous(name="Time (minutes)")+scale_y_continuous(name=expression("Fomite 2: Viral particles/cm"^2*""))+guides(colour = guide_legend(override.aes = list(alpha = 1,size=2)))
+#B<-ggplot(framecombine)+geom_line(aes(x=timeall,y=fome2total,group=interaction(a.save,j.save,model),color=model),alpha=0.2)+
+#  facet_wrap(~j.save,scales="free")+
+#  theme_pubr()+
+#  theme(axis.title=element_text(size=18),axis.text=element_text(size=18),strip.text=element_text(size=18),
+#         legend.text = element_text(size=16))+
+#  scale_color_discrete(name="")+
+#  scale_x_continuous(name="Time (minutes)")+scale_y_continuous(name=expression("Fomite 2: Viral particles/cm"^2*""))+guides(colour = guide_legend(override.aes = list(alpha = 1,size=2)))
 
-C<-ggplot(framecombine)+geom_line(aes(x=timeall,y=hands,group=interaction(a.save,j.save,model),color=model),alpha=0.2)+
-  facet_wrap(~j.save,scales="free")+
-  theme_pubr()+
-  theme(axis.title=element_text(size=18),axis.text=element_text(size=18),strip.text=element_text(size=18),
-        legend.text = element_text(size=16))+
-  scale_color_discrete(name="")+
-  scale_x_continuous(name="Time (minutes)")+scale_y_continuous(name=expression("Hands: Viral particles/cm"^2*""))+guides(colour = guide_legend(override.aes = list(alpha = 1,size=2)))
+#C<-ggplot(framecombine)+geom_line(aes(x=timeall,y=hands,group=interaction(a.save,j.save,model),color=model),alpha=0.2)+
+#  facet_wrap(~j.save,scales="free")+
+#  theme_pubr()+
+#  theme(axis.title=element_text(size=18),axis.text=element_text(size=18),strip.text=element_text(size=18),
+#        legend.text = element_text(size=16))+
+#  scale_color_discrete(name="")+
+#  scale_x_continuous(name="Time (minutes)")+scale_y_continuous(name=expression("Hands: Viral particles/cm"^2*""))+guides(colour = guide_legend(override.aes = list(alpha = 1,size=2)))
 
 
 #ggplot(framecombine[framecombine$model=="Discrete",])+geom_line(aes(x=timeall,y=hands,group=interaction(a.save,j.save,model),color=model),alpha=0.2)+
@@ -123,16 +146,16 @@ C<-ggplot(framecombine)+geom_line(aes(x=timeall,y=hands,group=interaction(a.save
 #  scale_color_discrete(name="")+
 #  scale_x_continuous(name="Time (minutes)")+scale_y_continuous(name=expression("Hands: Viral particles/cm"^2*""))+guides(colour = guide_legend(override.aes = list(alpha = 1,size=2)))
 
-D<-ggplot(framecombine)+geom_line(aes(x=timeall,y=dose,group=interaction(a.save,j.save,model),color=model),alpha=0.2)+
-  facet_wrap(~j.save,scales="free")+
-  theme_pubr()+
-  theme(axis.title=element_text(size=18),axis.text=element_text(size=18),strip.text=element_text(size=18),
-        legend.text = element_text(size=16))+
-  scale_color_discrete(name="")+
-  scale_x_continuous(name="Time (minutes)")+scale_y_continuous(name="Dose")+guides(colour = guide_legend(override.aes = list(alpha = 1,size=2)))
+#D<-ggplot(framecombine)+geom_line(aes(x=timeall,y=dose,group=interaction(a.save,j.save,model),color=model),alpha=0.2)+
+#  facet_wrap(~j.save,scales="free")+
+#  theme_pubr()+
+#  theme(axis.title=element_text(size=18),axis.text=element_text(size=18),strip.text=element_text(size=18),
+#        legend.text = element_text(size=16))+
+#  scale_color_discrete(name="")+
+#  scale_x_continuous(name="Time (minutes)")+scale_y_continuous(name="Dose")+guides(colour = guide_legend(override.aes = list(alpha = 1,size=2)))
 
-windows()
-ggarrange(A,B,C,nrow=1,common.legend = TRUE)
+#windows()
+#ggarrange(A,B,C,nrow=1,common.legend = TRUE)
 
 maxdoseplot$symmetry<-NA
 maxdoseplot$symmetry[maxdoseplot$j==1 | maxdoseplot$j==2]<-"Symmetric Contact Frequency"
@@ -163,3 +186,15 @@ sumstat<-function(model=model,j=j){
 
 sumstat(model="discrete",j=1)
 
+
+#---------
+
+#checking 10,000 iter discrete
+frame.discrete<-data.frame(dose=final.dose.discrete,a=a.save.dose.discrete,j=j.save.dose.discrete)
+
+summary(frame.discrete$dose[frame.discrete$j==1])
+
+#checking 5,000 iter Markov
+frame.markov<-data.frame(dose=final.dose.markov,a=a.save.dose,j=j.save.dose)
+
+summary(frame.markov$dose[frame.markov$j==1])
