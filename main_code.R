@@ -6,6 +6,9 @@ rm(list = ls())
 iter<-5000
 timestep<-0.001
 
+#setting seed after checking iterations
+set.seed(30)
+
 #run code for defining parameters------------------------------------------------------------------------------------------
 
 source('defining parameters.R')
@@ -184,7 +187,7 @@ sumstat<-function(model=model,j=j){
   }
 
 
-sumstat(model="discrete",j=1)
+sumstat(model="markov",j=1)
 
 
 #---------
