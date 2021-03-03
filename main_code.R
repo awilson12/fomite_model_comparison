@@ -96,24 +96,56 @@ write.csv(maxdoseplot,'maxdoseplot.csv')
 require(ggplot2)
 require(ggpubr)
 
+maxdoseplot$symmetry<-NA
+maxdoseplot$symmetry[maxdoseplot$j==1 | maxdoseplot$j==2]<-"Symmetric Contact Frequency"
+maxdoseplot$symmetry[maxdoseplot$j==3 | maxdoseplot$j==4]<-"Asymmetric Contact Frequency"
+
+#violin plots to compare estimated doses among models
+windows()
+ggplot(maxdoseplot)+geom_violin(aes(x=model,y=maxdose,group=interaction(as.character(j),model),fill=as.character(j)),alpha=0.3,draw_quantiles = c(0.25,0.5,0.75))+
+  scale_y_continuous(trans="log10",name=expression("Log"[10]*phantom(x)*"Dose"))+
+  scale_x_discrete(name="",labels=c("Discrete","Markov"))+
+  scale_fill_discrete(name="Model Scenario")+
+  theme_pubr()+
+  theme(axis.text=element_text(size=20),axis.title=element_text(size=20),legend.text=element_text(size=20),strip.text=element_text(size=18))+
+  facet_wrap(~symmetry)
+
+#------summary statistic function and check---------------------
+
+sumstat<-function(model=model,j=j){
+  print("Summary:")
+  print(summary(maxdoseplot$maxdose[maxdoseplot$model==model & maxdoseplot$j==j]))
+  
+  print("IQR:")
+  print(IQR(maxdoseplot$maxdose[maxdoseplot$model==model & maxdoseplot$j==j]))
+  
+  print("SD:")
+  print(sd(maxdoseplot$maxdose[maxdoseplot$model==model & maxdoseplot$j==j]))
+  }
+
+
+sumstat(model="markov",j=1)
+
+
+#---------old checks/notes-------------------------
 
 #checking effect of iteration
-maxdoseplotmarkov<-data.frame(maxdose=final.dose.markov,a=a.save.dose,j=j.save.dose)
+#maxdoseplotmarkov<-data.frame(maxdose=final.dose.markov,a=a.save.dose,j=j.save.dose)
 
-maxdoseplotmarkov$symmetry<-NA
-maxdoseplotmarkov$symmetry[maxdoseplotmarkov$j==1 | maxdoseplotmarkov$j==2]<-"Symmetric Contact Frequency"
-maxdoseplotmarkov$symmetry[maxdoseplotmarkov$j==3 | maxdoseplotmarkov$j==4]<-"Asymmetric Contact Frequency"
+#maxdoseplotmarkov$symmetry<-NA
+#maxdoseplotmarkov$symmetry[maxdoseplotmarkov$j==1 | maxdoseplotmarkov$j==2]<-"Symmetric Contact Frequency"
+#maxdoseplotmarkov$symmetry[maxdoseplotmarkov$j==3 | maxdoseplotmarkov$j==4]<-"Asymmetric Contact Frequency"
 
 #appears the 5,000 iter results look similar on the top as the 1,000 iter results
-ggplot(maxdoseplotmarkov)+geom_violin(aes(x=symmetry,group=as.character(j),y=maxdose))+
-  scale_y_continuous(trans="log10")
+#ggplot(maxdoseplotmarkov)+geom_violin(aes(x=symmetry,group=as.character(j),y=maxdose))+
+#  scale_y_continuous(trans="log10")
 
 #untransformed, you see the top tails, but these tails taper off on a log10 scale much faster than the lower tails
-ggplot(maxdoseplotmarkov)+geom_violin(aes(x=symmetry,group=as.character(j),y=maxdose))
+#ggplot(maxdoseplotmarkov)+geom_violin(aes(x=symmetry,group=as.character(j),y=maxdose))
 
 #checking relative to y scale used for direct comparison to figure 4
-ggplot(maxdoseplotmarkov)+geom_violin(aes(x=symmetry,group=as.character(j),y=maxdose))+
-  scale_y_continuous(trans="log10",limits=c(1e-4,1e2))
+#ggplot(maxdoseplotmarkov)+geom_violin(aes(x=symmetry,group=as.character(j),y=maxdose))+
+#  scale_y_continuous(trans="log10",limits=c(1e-4,1e2))
 
 
 #line plot to compare concentration on hands over time among models
@@ -160,44 +192,13 @@ ggplot(maxdoseplotmarkov)+geom_violin(aes(x=symmetry,group=as.character(j),y=max
 #windows()
 #ggarrange(A,B,C,nrow=1,common.legend = TRUE)
 
-maxdoseplot$symmetry<-NA
-maxdoseplot$symmetry[maxdoseplot$j==1 | maxdoseplot$j==2]<-"Symmetric Contact Frequency"
-maxdoseplot$symmetry[maxdoseplot$j==3 | maxdoseplot$j==4]<-"Asymmetric Contact Frequency"
-
-#violin plots to compare estimated doses among models
-windows()
-ggplot(maxdoseplot)+geom_violin(aes(x=model,y=maxdose,group=interaction(as.character(j),model),fill=as.character(j)),alpha=0.3,draw_quantiles = c(0.25,0.5,0.75))+
-  scale_y_continuous(trans="log10",name=expression("Log"[10]*phantom(x)*"Dose"))+
-  scale_x_discrete(name="",labels=c("Discrete","Markov"))+
-  scale_fill_discrete(name="Model Scenario")+
-  theme_pubr()+
-  theme(axis.text=element_text(size=20),axis.title=element_text(size=20),legend.text=element_text(size=20),strip.text=element_text(size=18))+
-  facet_wrap(~symmetry)
-
-
-sumstat<-function(model=model,j=j){
-  print("Summary:")
-  print(summary(maxdoseplot$maxdose[maxdoseplot$model==model & maxdoseplot$j==j]))
-  
-  print("IQR:")
-  print(IQR(maxdoseplot$maxdose[maxdoseplot$model==model & maxdoseplot$j==j]))
-  
-  print("SD:")
-  print(sd(maxdoseplot$maxdose[maxdoseplot$model==model & maxdoseplot$j==j]))
-  }
-
-
-sumstat(model="markov",j=1)
-
-
-#---------
 
 #checking 10,000 iter discrete
-frame.discrete<-data.frame(dose=final.dose.discrete,a=a.save.dose.discrete,j=j.save.dose.discrete)
+#frame.discrete<-data.frame(dose=final.dose.discrete,a=a.save.dose.discrete,j=j.save.dose.discrete)
 
-summary(frame.discrete$dose[frame.discrete$j==1])
+#summary(frame.discrete$dose[frame.discrete$j==1])
 
 #checking 5,000 iter Markov
-frame.markov<-data.frame(dose=final.dose.markov,a=a.save.dose,j=j.save.dose)
+#frame.markov<-data.frame(dose=final.dose.markov,a=a.save.dose,j=j.save.dose)
 
-summary(frame.markov$dose[frame.markov$j==1])
+#summary(frame.markov$dose[frame.markov$j==1])
