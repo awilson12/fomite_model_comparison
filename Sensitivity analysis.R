@@ -2,14 +2,6 @@
 
 #--------Iterations with greatest doses relative to mean and sd---------------
 
-#Top 15% doses
-
-#first sort from greatest to lowest max dose
-
-
-#then subset top 15% for discrete and Markov separately
-
-
 #pull mean and sd per time step
 duration<-21
 for (i in 2:(duration+1)){
@@ -201,6 +193,33 @@ D<-ggplot(ribbonframe[ribbonframe$type=="Fomite 2",])+geom_line(aes(x=timeall,y=
 windows()
 ggarrange(A,B,C,D,common.legend = TRUE,nrow=2,ncol=2)
 
+#---------top 15 dose runs---------------------------------------
+
+#top 15% greatest doses
+framesum<-framecombine[framecombine$timeall==21,]
+framecombine2<-framesum[order(-framesum$dose),]
+top.15<-0.15*length(framecombine2$dose)
+
+top15.frame<-framecombine2[1:top.15,]
+
+#checking out which scenarios led to greatest doses
+table(top15.frame$model)
+table(top15.frame$j[top15.frame$model=="Markov"])
+table(top15.frame$j[top15.frame$model=="Discrete"])
+
+#extracting info for these runs
+for(i in 1:length(top15.frame$fome1total)){
+  if(i==1){
+    top15frameall<-framecombine[framecombine$a.save==top15.frame$a.save[i] & framecombine$j.save==top15.frame$j.save[i] & framecombine$model==top15.frame$model[i],]
+    top15frameall$run<-i
+  }else{
+    frametemp<-framecombine[framecombine$a.save==top15.frame$a.save[i] & framecombine$j.save==top15.frame$j.save[i] & framecombine$model==top15.frame$model[i],]
+    frametemp$run<-i
+    top15frameall<-rbind(top15frameall,frametemp)
+  }
+  
+}
+
 #Spearman correlation coeff with estimated dose per model framework and scenario---------------------------------------------------------------
 
 paramsavesub<-subset(paramsave,select=-c(dose))
@@ -270,5 +289,50 @@ H<-ggplot(paramsaveall)+geom_point(aes(x=khand,y=dose,color=j,group=interaction(
   guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
 
 windows()
+
+#spearman cor
+
+
+#top 15% dose exploration----------------------------------------------------------
+
+
+#top 15% greatest doses
+framesum<-framecombine[framecombine$timeall==21,]
+framecombine2<-framesum[order(-framesum$dose),]
+top.15<-0.15*length(framecombine2$dose)
+
+top15.frame<-framecombine2[1:top.15,]
+
+#checking out which scenarios led to greatest doses
+table(top15.frame$model)
+table(top15.frame$j[top15.frame$model=="Markov"])
+table(top15.frame$j[top15.frame$model=="Discrete"])
+
+#extracting info for these runs
+for(i in 1:length(top15.frame$fome1total)){
+  if(i==1){
+    top15frameall<-framecombine[framecombine$a.save==top15.frame$a.save[i] & framecombine$j.save==top15.frame$j.save[i] & framecombine$model==top15.frame$model[i],]
+    top15frameall$run<-i
+    
+    top15frameparam<-paramsaveall[paramsaveall$j==top15.frame$j.save[i] & paramsaveall$model==top15.frame$model[i] & paramsaveall$dose==top15.frame$dose[i],]
+    
+  }else{
+    frametemp<-framecombine[framecombine$a.save==top15.frame$a.save[i] & framecombine$j.save==top15.frame$j.save[i] & framecombine$model==top15.frame$model[i],]
+    frametempparam<-paramsaveall[paramsaveall$j==top15.frame$j.save[i] & paramsaveall$model==top15.frame$model[i] & paramsaveall$dose==top15.frame$dose[i],]
+    frametemp$run<-i
+    
+    top15frameall<-rbind(top15frameall,frametemp)
+    top15frameparam<-rbind(top15frameparam,frametempparam)
+  }
+  
+}
+
+top15frameall$jall<-top15frameall$j.save
+
+ggplot(top15frameparam)+geom_histogram(aes(fome1conc,y=..density..),alpha=0.3,fill="grey",color="black",pattern="stripe")+
+  #geom_density(data=top15frameparam,aes(fome1conc),fill="grey",alpha=0.3,color="black")+
+  geom_histogram(data=paramsaveall,aes(fome1conc,y=..density..),alpha=0.3,fill="blue",color="black")
+  #geom_density(data=paramsaveall,aes(fome2conc),alpha=0.3,fill="blue",color="black")
+
 
 

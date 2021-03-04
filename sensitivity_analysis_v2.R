@@ -178,10 +178,103 @@ paramsaveall$j<-rep(c(1,2,3,4),length(paramsaveall$fome1conc)/4)
 
 write.csv(paramsaveall,'paramsaveall_concexplore.csv')
 
+windows()
+
 ggplot(paramsaveall)+geom_point(aes(x=fome1conc/fome2conc,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
   facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
   scale_y_continuous(name="Dose")+
   scale_color_continuous(name="")+
-  scale_x_continuous(name="Hand-to-Fomite TE")+
+  scale_x_continuous(name="Fomite 1 Concentration / Fomite 2 Concentration",trans="log10")+
   guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
+
+ggplot(paramsaveall)+geom_point(aes(x=fome1conc,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
+  facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  scale_y_continuous(name="Dose")+
+  scale_color_continuous(name="")+
+  scale_x_continuous(name="Fomite 1 Concentration")+
+  guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
+
+ggplot(paramsaveall)+geom_point(aes(x=fome2conc,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
+  facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  scale_y_continuous(name="Dose")+
+  scale_color_continuous(name="")+
+  scale_x_continuous(name="Fomite 2 Concentration")+
+  guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
+
+framecombine$startconcratio<-NA
+for (i in 1:iter){
+  framecombine$startconcratio[framecombine$a.save==i]<-framecombine$fome1total[framecombine$timeall==0 & framecombine$a.save==i & framecombine$j.save==1 & framecombine$model=="Markov"]/framecombine$fome2total[framecombine$timeall==0 & framecombine$a.save==i & framecombine$j.save==1 & framecombine$model=="Markov"]
+  
+}
+
+framecombine$frac<-FALSE
+framecombine$frac[framecombine$startconcratio>0.3 & framecombine$startconcratio<3]<-TRUE
+
+windows()
+ggplot(framecombine)+geom_line(aes(x=timeall,y=dose,color=frac,group=interaction(a.save,j.save,model)),alpha=0.2)+
+  facet_wrap(model~j.save+frac)+
+  theme_pubr()+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
+  
+#top 15% greatest doses
+framesum<-framecombine[framecombine$timeall==21,]
+framecombine2<-framesum[order(-framesum$dose),]
+top.15<-0.15*length(framecombine2$dose)
+
+top15.frame<-framecombine2[1:top.15,]
+
+#checking out which scenarios led to greatest doses
+table(top15.frame$model)
+table(top15.frame$j[top15.frame$model=="Markov"])
+table(top15.frame$j[top15.frame$model=="Discrete"])
+
+#extracting info for these runs
+for(i in 1:length(top15.frame$fome1total)){
+  if(i==1){
+    top15frameall<-framecombine[framecombine$a.save==top15.frame$a.save[i] & framecombine$j.save==top15.frame$j.save[i] & framecombine$model==top15.frame$model[i],]
+    top15frameall$run<-i
+    
+    top15frameparam<-paramsaveall[paramsaveall$j==top15.frame$j.save[i] & paramsaveall$model==top15.frame$model[i] & paramsaveall$dose==top15.frame$dose[i],]
+    
+  }else{
+    frametemp<-framecombine[framecombine$a.save==top15.frame$a.save[i] & framecombine$j.save==top15.frame$j.save[i] & framecombine$model==top15.frame$model[i],]
+    frametempparam<-paramsaveall[paramsaveall$j==top15.frame$j.save[i] & paramsaveall$model==top15.frame$model[i] & paramsaveall$dose==top15.frame$dose[i],]
+    frametemp$run<-i
+    
+    top15frameall<-rbind(top15frameall,frametemp)
+    top15frameparam<-rbind(top15frameparam,frametempparam)
+  }
+  
+}
+
+top15frameall$jall<-top15frameall$j.save
+
+A<-ggplot(top15frameparam)+geom_density_pattern(aes(fome1conc,fill="High Dose Iterations"),alpha=0.3,pattern="circle")+
+  geom_density_pattern(data=paramsaveall,aes(fome1conc,fill="All Iterations"),alpha=0.3,pattern="none")+
+  scale_y_continuous(name="Density")+
+  scale_x_continuous(name="Fomite 1 Starting Concentration")+
+  theme_pubr()+
+  scale_fill_manual(labels=c("All Iterations","High Dose Iterations"),values=c("grey","blue"),name="")+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
+
+B<-ggplot(top15frameparam)+geom_density_pattern(aes(fome2conc,fill="High Dose Iterations"),alpha=0.3,pattern="circle")+
+  geom_density_pattern(data=paramsaveall,aes(fome2conc,fill="All Iterations"),alpha=0.3,pattern="none")+
+  scale_y_continuous(name="Density")+
+  scale_x_continuous(name="Fomite 2 Starting Concentration")+
+  theme_pubr()+
+  scale_fill_manual(labels=c("All Iterations","High Dose Iterations"),values=c("grey","blue"),name="")+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
+
+C<-ggplot(top15frameparam)+geom_density_pattern(aes(fome1conc/fome2conc,fill="High Dose Iterations"),alpha=0.3,pattern="circle")+
+  geom_density_pattern(data=paramsaveall,aes(fome1conc/fome2conc,fill="All Iterations"),alpha=0.3,pattern="none")+
+  scale_y_continuous(name="Density")+
+  scale_x_continuous(name="Fomite 1 / Fomite 2 Starting Concentration",trans="log10")+
+  theme_pubr()+
+  scale_fill_manual(labels=c("All Iterations","High Dose Iterations"),values=c("grey","blue"),name="")+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
+
+windows()
+ggarrange(A,B,C,common.legend = TRUE,nrow=1)
