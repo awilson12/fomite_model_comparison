@@ -42,7 +42,7 @@ for(i in 1:iter){
     fome1total<-list$state1
     fome2total<-list$state2
     dose<-list$dose
-    timeall<-list$time*timestep
+    timeall<-list$time
     a.save<-list$a
     j.save<-list$j
     a.save.dose<-rep(list$a[1],4)
@@ -53,7 +53,7 @@ for(i in 1:iter){
     handstemp<-list$state3
     fome1totaltemp<-list$state1
     fome2totaltemp<-list$state2
-    timealltemp<-list$time*timestep
+    timealltemp<-list$time
     atemp<-list$a
     jtemp<-list$j
     dosetemp<-list$dose
