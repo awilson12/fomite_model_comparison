@@ -59,13 +59,16 @@ markovfunc<-function(iter=iter){
       
       #saving states, iteration number, model number, and doses
       
+      savelist<-c(1:length(sim.mat[1,]))
+      savelist<-savelist[savelist==1 | savelist%%(1/timestep)==0]
+      
       if (j==1){
-        frame<-data.frame(state1=sim.mat[1,]/SA.fome.1[a],state2=sim.mat[2,]/SA.fome.2[a],state3=sim.mat[3,]/(A.hand[a]*2),state4=sim.mat[4,],dose=sim.mat[5,],
-                          time=c(1:(duration/timestep),duration/timestep+1),a=rep(a,length(sim.mat[1,])),j=rep(j,length(sim.mat[1,])))
+        frame<-data.frame(state1=sim.mat[1,savelist]/SA.fome.1[a],state2=sim.mat[2,savelist]/SA.fome.2[a],state3=sim.mat[3,savelist]/(A.hand[a]*2),state4=sim.mat[4,savelist],dose=sim.mat[5,savelist],
+                          time=c(1:(duration),duration+1),a=rep(a,length(sim.mat[1,savelist])),j=rep(j,length(sim.mat[1,savelist])))
         max.dose.markov=data.frame(maxdose=max(sim.mat[5,]),a=a,j=j)
       }else{
-        frametemp<-data.frame(state1=sim.mat[1,]/SA.fome.1[a],state2=sim.mat[2,]/SA.fome.2[a],state3=sim.mat[3,]/(A.hand[a]*2),state4=sim.mat[4,],dose=sim.mat[5,],
-                              time=c(1:(duration/timestep),duration/timestep+1),a=rep(a,length(sim.mat[1,])),j=rep(j,length(sim.mat[1,])))
+        frametemp<-data.frame(state1=sim.mat[1,savelist]/SA.fome.1[a],state2=sim.mat[2,savelist]/SA.fome.2[a],state3=sim.mat[3,savelist]/(A.hand[a]*2),state4=sim.mat[4,savelist],dose=sim.mat[5,savelist],
+                              time=c(1:(duration),+1),a=rep(a,length(sim.mat[1,savelist])),j=rep(j,length(sim.mat[1,savelist])))
         max.dose.markov.temp=data.frame(maxdose=max(sim.mat[5,]),a=a,j=j)
         frame<-rbind(frame,frametemp)
         max.dose.markov=rbind(max.dose.markov,max.dose.markov.temp)

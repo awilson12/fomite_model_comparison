@@ -132,8 +132,8 @@ for (i in 2:(duration+1)){
       time<-c(time,timetemp)
     }
     
-  }
-}
+  } #end of j loop
+} #end of i loop
 
 means<-c(mean.discrete,mean.markov,
          mean.discrete.hands,mean.markov.hands,
@@ -201,7 +201,17 @@ D<-ggplot(ribbonframe[ribbonframe$type=="Fomite 2",])+geom_line(aes(x=timeall,y=
 windows()
 ggarrange(A,B,C,D,common.legend = TRUE,nrow=2,ncol=2)
 
+#Spearman correlation coeff with estimated dose per model framework and scenario---------------------------------------------------------------
 
+paramsavesub<-subset(paramsave,select=-c(dose))
+paramsavesub$dose<-final.dose.markov
+paramsavesub$model<-"Markov"
+paramsave$model<-"Discrete"
 
+paramsaveall<-rbind(paramsavesub,paramsave)
+paramsaveall$j<-rep(c(1,2,3,4),length(paramsaveall$Tehandsurf)/4)
 
-#Spearman correlation coeff with estimated dose per model framework and scenario
+write.csv(paramsaveall,'paramsaveall.csv')
+
+A<-ggplot(paramsaveall)+geom_point(aes(x=Tehandsurf,y=dose,color=model,group=interaction(j,model)),alpha=0.3)+
+  facet_wrap(~model)

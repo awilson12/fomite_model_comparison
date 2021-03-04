@@ -27,6 +27,8 @@ final.dose.discrete<-frame.save.discrete$dose[frame.save.discrete$timeall==21]
 a.save.dose.discrete<-frame.save.discrete$a[frame.save.discrete$timeall==21]
 j.save.dose.discrete<-frame.save.discrete$j[frame.save.discrete$timeall==21]
 
+rm(framesave)
+
 #run code for Markov models-------------------------------------------------------------------------------------------------
 
 source('Markov_models_v2.R')
@@ -34,7 +36,7 @@ source('Markov_models_v2.R')
 #saving output from Markov models per minute to avoid memory issues
 for(i in 1:iter){
   list<-save.list[[i]]
-  list<-list[list$time==1 | list$time%%(1/timestep)==0,]
+  #list<-list[list$time==1 | list$time%%(1/timestep)==0,]
   if(i==1){
     hands<-list$state3
     fome1total<-list$state1
@@ -90,6 +92,7 @@ maxdoseplot<-data.frame(maxdose=finaldoses,
 
 write.csv(framecombine,'frame_combine.csv')
 write.csv(maxdoseplot,'maxdoseplot.csv')
+write.scv(paramsave,'paramsave.csv')
 
 #Plots---------------------------------------------------------------------------------------------------------------------
 
@@ -193,10 +196,9 @@ sumstat(model="markov",j=1)
 #ggarrange(A,B,C,nrow=1,common.legend = TRUE)
 
 
-#checking 10,000 iter discrete
-#frame.discrete<-data.frame(dose=final.dose.discrete,a=a.save.dose.discrete,j=j.save.dose.discrete)
-
-#summary(frame.discrete$dose[frame.discrete$j==1])
+#checking  iter discrete
+summary(frame.save.markov$dose[frame.save.markov$j==1 & frame.save.markov$timeall==0.021])
+IQR(frame.save.markov$dose[frame.save.markov$j==1])
 
 #checking 5,000 iter Markov
 #frame.markov<-data.frame(dose=final.dose.markov,a=a.save.dose,j=j.save.dose)
