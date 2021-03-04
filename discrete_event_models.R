@@ -183,24 +183,24 @@ discretefunc<-function(iter=iter){
         timeall=c(0,1:duration)
         a.save=rep(a,(duration+1))
         j.save=rep(j,(duration+1))
-        Tehandsurf=rep(TE.HS[a],duration)
-        Tesurfhand=rep(TE.SH[a],duration)
-        totalhand=rep(A.hand[a],duration)
-        SAfome1=rep(SA.fome.1[a],duration)
-        SAfome2=rep(SA.fome.2[a],duration)
-        kfome=rep(inactiv.fome[a],duration)
-        khand=rep(inactiv.hands[a],duration)
+        #Tehandsurf=rep(TE.HS[a],duration)
+        #Tesurfhand=rep(TE.SH[a],duration)
+        #totalhand=rep(A.hand[a],duration)
+        #SAfome1=rep(SA.fome.1[a],duration)
+        #SAfome2=rep(SA.fome.2[a],duration)
+        #kfome=rep(inactiv.fome[a],duration)
+        #khand=rep(inactiv.hands[a],duration)
         eventtotal=event
     
       }else{
         dosetemp=dose
-        Tehandsurftemp=rep(TE.HS[a],duration)
-        Tesurfhandtemp=rep(TE.SH[a],duration)
-        totalhandtemp=rep(A.hand[a],duration)
-        SAfome1temp=rep(SA.fome.1[a],duration)
-        SAfome2temp=rep(SA.fome.2[a],duration)
-        kfometemp=rep(inactiv.fome[a],duration)
-        khandtemp=rep(inactiv.hands[a],duration)
+        #Tehandsurftemp=rep(TE.HS[a],duration)
+        #Tesurfhandtemp=rep(TE.SH[a],duration)
+        #totalhandtemp=rep(A.hand[a],duration)
+        #SAfome1temp=rep(SA.fome.1[a],duration)
+        #SAfome2temp=rep(SA.fome.2[a],duration)
+        #kfometemp=rep(inactiv.fome[a],duration)
+        #khandtemp=rep(inactiv.hands[a],duration)
         a.savetemp=rep(a,(duration+1))
         j.savetemp=rep(j,(duration+1))
         eventtemp=event
@@ -212,13 +212,13 @@ discretefunc<-function(iter=iter){
         fome1total<-c(fome1total,fome1)
         fome2total<-c(fome2total,fome2)
         timeall<-c(timeall,c(0,1:duration))
-        Tehandsurf<-c(Tehandsurf,Tehandsurftemp)
-        Tesurfhand<-c(Tesurfhand,Tesurfhandtemp)
-        totalhand<-c(totalhand,totalhandtemp)
-        SAfome1<-c(SAfome1,SAfome1temp)
-        SAfome2<-c(SAfome2,SAfome2temp)
-        kfome<-c(kfome,kfometemp)
-        khand<-c(khand,khandtemp)
+        #Tehandsurf<-c(Tehandsurf,Tehandsurftemp)
+        #Tesurfhand<-c(Tesurfhand,Tesurfhandtemp)
+        #totalhand<-c(totalhand,totalhandtemp)
+        #SAfome1<-c(SAfome1,SAfome1temp)
+        #SAfome2<-c(SAfome2,SAfome2temp)
+        #kfome<-c(kfome,kfometemp)
+        #khand<-c(khand,khandtemp)
         a.save<-c(a.save,a.savetemp)
         j.save<-c(j.save,j.savetemp)
       }
@@ -229,8 +229,8 @@ discretefunc<-function(iter=iter){
     
     frame<-data.frame(handRtotal=handRtotal,handLtotal=handLtotal,fome1total=fome1total,fome2total=fome2total,
                       timeall=timeall,a.save=a.save,j.save=j.save,dose=dosetotal,eventtotal=eventtotal)
-    param<-data.frame(Tehandsurf=rep(Tehandsurf[a],4),Tesurfhand=rep(Tesurfhand[a],4),totalhand=rep(totalhand[a],4),
-                      SAfome1=rep(SAfome1[a],4),SAfome2=rep(SAfome2[a],4),kfome=rep(kfome[a],4),khand=rep(khand[a],4),
+    param<-data.frame(Tehandsurf=rep(TE.HS[a],4),Tesurfhand=rep(TE.SH[a],4),totalhand=rep(A.hand[a],4),
+                      SAfome1=rep(SA.fome.1[a],4),SAfome2=rep(SA.fome.2[a],4),kfome=rep(inactiv.fome[a],4),khand=rep(inactiv.hands[a],4),
                       dose=maxdoses)
     
     #saving overall larger frame for later plotting
