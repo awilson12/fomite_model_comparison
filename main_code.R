@@ -127,7 +127,7 @@ sumstat<-function(model=model,j=j){
   }
 
 
-sumstat(model="markov",j=1)
+sumstat(model="discrete",j=2)
 
 
 #---------old checks/notes-------------------------
@@ -197,8 +197,8 @@ sumstat(model="markov",j=1)
 
 
 #checking  iter discrete
-summary(frame.save.markov$dose[frame.save.markov$j==1 & frame.save.markov$timeall==0.021])
-IQR(frame.save.markov$dose[frame.save.markov$j==1])
+#summary(frame.save.markov$dose[frame.save.markov$j==1 & frame.save.markov$timeall==0.021])
+#IQR(frame.save.markov$dose[frame.save.markov$j==1])
 
 #checking 5,000 iter Markov
 #frame.markov<-data.frame(dose=final.dose.markov,a=a.save.dose,j=j.save.dose)

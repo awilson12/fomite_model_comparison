@@ -213,5 +213,62 @@ paramsaveall$j<-rep(c(1,2,3,4),length(paramsaveall$Tehandsurf)/4)
 
 write.csv(paramsaveall,'paramsaveall.csv')
 
-A<-ggplot(paramsaveall)+geom_point(aes(x=Tehandsurf,y=dose,color=model,group=interaction(j,model)),alpha=0.3)+
-  facet_wrap(~model)
+A<-ggplot(paramsaveall)+geom_point(aes(x=Tehandsurf,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
+  facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  scale_y_continuous(name="Dose")+
+  scale_color_continuous(name="")+
+  scale_x_continuous(name="Hand-to-Fomite TE")+
+  guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
+
+B<-ggplot(paramsaveall)+geom_point(aes(x=Tesurfhand,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
+  facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  scale_y_continuous(name="Dose")+
+  scale_color_continuous(name="")+
+  scale_x_continuous(name="Fomite-to-Hand TE")+
+  guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
+  
+C<-ggplot(paramsaveall)+geom_point(aes(x=totalhand,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
+  facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  scale_y_continuous(name="Dose")+
+  scale_color_continuous(name="")+
+  scale_x_continuous(name="Total Hand SA")+
+  guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
+
+D<-ggplot(paramsaveall)+geom_point(aes(x=SAfome1,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
+  facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  scale_y_continuous(name="Dose")+
+  scale_color_continuous(name="")+
+  scale_x_continuous(name="SA of Fomite 1")+
+  guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
+
+E<-ggplot(paramsaveall)+geom_point(aes(x=SAfome2,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
+  facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  scale_y_continuous(name="Dose")+
+  scale_color_continuous(name="")+
+  scale_x_continuous(name="SA of Fomite 2")+
+  guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
+
+G<-ggplot(paramsaveall)+geom_point(aes(x=kfome,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
+  facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  scale_y_continuous(name="Dose")+
+  scale_color_continuous(name="")+
+  scale_x_continuous(name="Inactivation on Fomites")+
+  guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
+
+H<-ggplot(paramsaveall)+geom_point(aes(x=khand,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
+  facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  scale_y_continuous(name="Dpse")+
+  scale_color_continuous(name="")+
+  scale_x_continuous(name="Inactivation on Hands")+
+  guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
+
+windows()
+
+
