@@ -113,6 +113,17 @@ ggplot(maxdoseplot)+geom_violin(aes(x=model,y=maxdose,group=interaction(as.chara
   theme(axis.text=element_text(size=20),axis.title=element_text(size=20),legend.text=element_text(size=20),strip.text=element_text(size=18))+
   facet_wrap(~symmetry)
 
+library(e1071)
+skewness(log10(maxdoseplot$maxdose[maxdoseplot$model=="markov" & maxdoseplot$j==1]),type=2)
+skewness(log10(maxdoseplot$maxdose[maxdoseplot$model=="markov" & maxdoseplot$j==2]),type=2)
+skewness(log10(maxdoseplot$maxdose[maxdoseplot$model=="markov" & maxdoseplot$j==3]),type=2)
+skewness(log10(maxdoseplot$maxdose[maxdoseplot$model=="markov" & maxdoseplot$j==4]),type=2)
+
+skewness(log10(maxdoseplot$maxdose[maxdoseplot$model=="discrete" & maxdoseplot$j==1 & maxdoseplot$maxdose!=0]),type=2)
+skewness(log10(maxdoseplot$maxdose[maxdoseplot$model=="discrete" & maxdoseplot$j==2 & maxdoseplot$maxdose!=0]),type=2)
+skewness(log10(maxdoseplot$maxdose[maxdoseplot$model=="discrete" & maxdoseplot$j==3 & maxdoseplot$maxdose!=0]),type=2)
+skewness(log10(maxdoseplot$maxdose[maxdoseplot$model=="discrete" & maxdoseplot$j==4 & maxdoseplot$maxdose!=0]),type=2)
+
 #------summary statistic function and check---------------------
 
 sumstat<-function(model=model,j=j){
