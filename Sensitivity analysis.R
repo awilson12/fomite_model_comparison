@@ -378,7 +378,29 @@ D<-ggplot(top15frameparam[top15frameparam$model=="Discrete",])+geom_histogram(ae
   scale_y_continuous(name="Density")+
   scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))
 
+E<-ggplot(top15frameparam[top15frameparam$model=="Discrete",])+geom_histogram(aes(facecontact,y=..density..,fill="Top 15% of Dose Iterations"),binwidth=1,alpha=0.5,color="black")+
+  #geom_density(data=top15frameparam,aes(SH),fill="grey",alpha=0.3,color="black")+
+  geom_histogram(data=paramsaveall,aes(facecontact,y=..density..,fill="All Iterations"),alpha=0.3,color="black",binwidth = 1)+theme_pubr()+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),strip.text=element_text(size=18))+
+  scale_x_continuous(name="Face contact timing")+
+  scale_y_continuous(name="Density")+
+  facet_wrap(~j)+
+  scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))
 
+ggplot(ribbonframe[ribbonframe$type=="Dose",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
+  geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
+  geom_ribbon(aes(x=timeall,ymax=means+sds,ymin=means-sds,group=interaction(model,jall,type),fill=model),alpha=0.2)+
+  facet_wrap(~jall,scales="free")+
+  scale_fill_manual(name="",values=c("#339966","#000066"))+
+  scale_color_manual(name="",values=c("#339966","#000066"))+
+  scale_x_continuous(name="Time (minutes)")+
+  scale_y_continuous(name="Dose")+
+  theme_pubr()+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
+
+table(top15frameparam$facecontact[top15frameparam$model=="Discrete"])
+
+table(top15frameparam$facecontact[top15frameparam$model=="Discrete" & top15frameparam$j==4])
 
 #(top15frameparam)+geom_histogram(aes(SF,y=..density..),alpha=0.5,fill="grey",color="black")+
 #  #geom_density(data=top15frameparam,aes(fome1conc),fill="grey",alpha=0.3,color="black")+
@@ -389,9 +411,7 @@ D<-ggplot(top15frameparam[top15frameparam$model=="Discrete",])+geom_histogram(ae
 windows()
 ggarrange(A,B,C,D,common.legend=TRUE)
 
-for(i in 1:5)
 
 
-ggplot(top15frameall[top15frameall$model=="Discrete",])+geom_line(aes(x=timeall,y=dose,group=interaction(model,j.save,a.save)))
 
 
