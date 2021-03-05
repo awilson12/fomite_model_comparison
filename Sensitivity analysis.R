@@ -249,6 +249,23 @@ J<-ggplot(paramsaveall)+geom_point(aes(x=SF,y=dose,color=j,group=interaction(j,m
   scale_x_continuous(name="Fraction of Hand for Mouth Touch")+
   guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
 
+K<-ggplot(paramsaveall)+geom_point(aes(x=TEhandmouth,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
+  facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
+  theme(axis.text=element_text(size=14),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  scale_y_continuous(name="Dpse")+
+  scale_color_continuous(name="")+
+  scale_x_continuous(name="Hand-to-Mouth TE")+
+  guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
+
+L<-ggplot(paramsaveall)+geom_point(aes(x=handeff,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
+  facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
+  theme(axis.text=element_text(size=14),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  scale_y_continuous(name="Dpse")+
+  scale_color_continuous(name="")+
+  scale_x_continuous(name=expression("Log"[10]*phantom(x)*"Hand Hygiene Efficacy"))+
+  guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
+
+
 #spearman cor
 spearmancorval<-function(model="Markov",j=1){
   data<-paramsaveall[paramsaveall$model==model & paramsaveall$j==j,]
@@ -307,7 +324,7 @@ A<-ggplot(top15frameparam)+geom_histogram(aes(Tesurfhand,y=..density..,fill="Top
   #geom_density(data=top15frameparam,aes(fome1conc),fill="grey",alpha=0.3,color="black")+
   geom_histogram(data=paramsaveall,aes(Tesurfhand,y=..density..,fill="All Iterations"),alpha=0.3,color="black")+theme_pubr()+
   theme(axis.text=element_text(size=18),axis.title=element_text(size=18),legend.text=element_text(size=18),strip.text=element_text(size=18))+
-  scale_x_continuous(name="Surface-to-Hand Transfer Efficiency")+
+  scale_x_continuous(name="Fomite-to-Hand Transfer Efficiency")+
   scale_y_continuous(name="Density")+
   scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))
 #geom_density(data=paramsaveall,aes(fome2conc),alpha=0.3,fill="blue",color="black")
@@ -344,6 +361,17 @@ B<-ggplot(top15frameparam)+geom_histogram(aes(SH,y=..density..,fill="Top 15% of 
   scale_y_continuous(name="Density")+
   scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))
  #geom_density(data=paramsaveall,aes(SH),alpha=0.3,fill="blue",color="black")
+
+C<-ggplot(top15frameparam)+geom_histogram(aes(TEhandmouth,y=..density..,fill="Top 15% of Dose Iterations"),alpha=0.5,color="black")+
+  #geom_density(data=top15frameparam,aes(SH),fill="grey",alpha=0.3,color="black")+
+  geom_histogram(data=paramsaveall,aes(TEhandmouth,y=..density..,fill="All Iterations"),alpha=0.3,color="black")+theme_pubr()+
+  theme(axis.text=element_text(size=18),axis.title=element_text(size=18),legend.text=element_text(size=18),strip.text=element_text(size=18))+
+  scale_x_continuous(name="Fraction of Hand for Fomite Touch")+
+  scale_y_continuous(name="Density")+
+  scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))
+
+
+
 
 #(top15frameparam)+geom_histogram(aes(SF,y=..density..),alpha=0.5,fill="grey",color="black")+
 #  #geom_density(data=top15frameparam,aes(fome1conc),fill="grey",alpha=0.3,color="black")+
