@@ -4,36 +4,36 @@
 
 #pull mean and sd per time step
 duration<-21
-for (i in 2:(duration+1)){
+for (i in 1:(duration+1)){
   for (j in 1:4){
-    if(i==2 & j==1){
+    if(i==1 & j==1){
       #means for doses
-      mean.discrete<-c(0,mean(framecombine$dose[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j]))
-      sd.discrete<-c(0,sd(framecombine$dose[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j]))
-      mean.markov<-c(0,mean(framecombine$dose[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j]))
-      sd.markov<-c(0,sd(framecombine$dose[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j]))
+      mean.discrete<-mean(framecombine$dose[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j])
+      sd.discrete<-sd(framecombine$dose[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j])
+      mean.markov<-mean(framecombine$dose[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j])
+      sd.markov<-sd(framecombine$dose[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j])
       
       #means for hands
-      mean.discrete.hands<-c(0,mean(framecombine$hands[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j]))
-      sd.discrete.hands<-c(0,sd(framecombine$hands[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j]))
-      mean.markov.hands<-c(0,mean(framecombine$hands[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j]))
-      sd.markov.hands<-c(0,sd(framecombine$hands[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j]))
+      mean.discrete.hands<-mean(framecombine$hands[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j])
+      sd.discrete.hands<-sd(framecombine$hands[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j])
+      mean.markov.hands<-mean(framecombine$hands[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j])
+      sd.markov.hands<-sd(framecombine$hands[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j])
       
       #means for fome 1
-      mean.discrete.fome1<-c(100,mean(framecombine$fome1total[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j]))
-      sd.discrete.fome1<-c(0,sd(framecombine$fome1total[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j]))
-      mean.markov.fome1<-c(100,mean(framecombine$fome1total[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j]))
-      sd.markov.fome1<-c(0,sd(framecombine$fome1total[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j]))
+      mean.discrete.fome1<-mean(framecombine$fome1total[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j])
+      sd.discrete.fome1<-sd(framecombine$fome1total[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j])
+      mean.markov.fome1<-mean(framecombine$fome1total[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j])
+      sd.markov.fome1<-sd(framecombine$fome1total[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j])
       
       #means for fome 2
-      mean.discrete.fome2<-c(5,mean(framecombine$fome2total[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j]))
-      sd.discrete.fome2<-c(0,sd(framecombine$fome2total[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j]))
-      mean.markov.fome2<-c(5,mean(framecombine$fome2total[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j]))
-      sd.markov.fome2<-c(0,sd(framecombine$fome2total[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j]))
+      mean.discrete.fome2<-mean(framecombine$fome2total[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j])
+      sd.discrete.fome2<-sd(framecombine$fome2total[framecombine$model=="Discrete" & framecombine$timeall==i-1 & framecombine$j.save==j])
+      mean.markov.fome2<-mean(framecombine$fome2total[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j])
+      sd.markov.fome2<-sd(framecombine$fome2total[framecombine$model=="Markov" & framecombine$timeall==i-1 & framecombine$j.save==j])
       
       #all
-      j.all<-rep(j,2)
-      time<-c(0,i-1)
+      j.all<-j
+      time<-i-1
     }else{
       
       #means for doses
@@ -63,35 +63,6 @@ for (i in 2:(duration+1)){
       #all
       j.alltemp<-j
       timetemp<-i-1
-      
-      if(i==2 & j!=1){
-        #means for doses
-        mean.discretetemp<-c(0,mean.discretetemp)
-        sd.discretetemp<-c(0,sd.discretetemp)
-        mean.markovtemp<-c(0,mean.markovtemp)
-        sd.markovtemp<-c(0,sd.markovtemp)
-        
-        #means for hands
-        mean.discrete.handstemp<-c(0,mean.discrete.handstemp)
-        sd.discrete.handstemp<-c(0,sd.discrete.handstemp)
-        mean.markov.handstemp<-c(0,mean.markov.handstemp)
-        sd.markov.handstemp<-c(0,sd.markov.handstemp)
-        
-        #means for fome 1
-        mean.discrete.fome1temp<-c(100,mean.discrete.fome1temp)
-        sd.discrete.fome1temp<-c(0,sd.discrete.fome1temp)
-        mean.markov.fome1temp<-c(100,mean.markov.fome1temp)
-        sd.markov.fome1temp<-c(0,sd.markov.fome1temp)
-        
-        #means for fome 2
-        mean.discrete.fome2temp<-c(5,mean.discrete.fome2temp)
-        sd.discrete.fome2temp<-c(0,sd.discrete.fome2temp)
-        mean.markov.fome2temp<-c(5,mean.markov.fome2temp)
-        sd.markov.fome2temp<-c(0,sd.markov.fome2temp)
-        
-        j.alltemp<-rep(j.alltemp,2)
-        timetemp<-rep(timetemp,2)
-      }
       
       #append
       
@@ -146,45 +117,45 @@ timeall<-rep(time,8)
 ribbonframe<-data.frame(means,sds,model,type,jall,timeall)
 
 A<-ggplot(ribbonframe[ribbonframe$type=="Dose",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
-  geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2)+
+  geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
   geom_ribbon(aes(x=timeall,ymax=means+sds,ymin=means-sds,group=interaction(model,jall,type),fill=model),alpha=0.2)+
   facet_wrap(~jall,scales="free")+
-  scale_fill_discrete(name="")+
-  scale_color_discrete(name="")+
+  scale_fill_manual(name="",values=c("#339966","#000066"))+
+  scale_color_manual(name="",values=c("#339966","#000066"))+
   scale_x_continuous(name="Time (minutes)")+
   scale_y_continuous(name="Dose")+
   theme_pubr()+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
   
 B<-ggplot(ribbonframe[ribbonframe$type=="Hands",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
-  geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2)+
+  geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
   #geom_ribbon(aes(x=timeall,ymax=means+sds*1.96/sqrt(5000),ymin=means-sds*1.96/sqrt(5000),group=interaction(model,jall,type),fill=model),alpha=0.3)+
   geom_ribbon(aes(x=timeall,ymax=means+sds,ymin=means-sds,group=interaction(model,jall,type),fill=model),alpha=0.2)+
   facet_wrap(~jall,scales="free")+
-  scale_fill_discrete(name="")+
-  scale_color_discrete(name="")+
+  scale_fill_manual(name="",values=c("#339966","#000066"))+
+  scale_color_manual(name="",values=c("#339966","#000066"))+
   scale_x_continuous(name="Time (minutes)")+
   scale_y_continuous(name="Hands")+
   theme_pubr()+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
 
 C<-ggplot(ribbonframe[ribbonframe$type=="Fomite 1",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
-  geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2)+
+  geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
   geom_ribbon(aes(x=timeall,ymax=means+sds,ymin=means-sds,group=interaction(model,jall,type),fill=model),alpha=0.2)+
   facet_wrap(~jall,scales="free")+
-  scale_fill_discrete(name="")+
-  scale_color_discrete(name="")+
+  scale_fill_manual(name="",values=c("#339966","#000066"))+
+  scale_color_manual(name="",values=c("#339966","#000066"))+
   scale_x_continuous(name="Time (minutes)")+
   scale_y_continuous(name="Fomite 1 ")+
   theme_pubr()+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
 
 D<-ggplot(ribbonframe[ribbonframe$type=="Fomite 2",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
-  geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2)+
+  geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
   geom_ribbon(aes(x=timeall,ymax=means+sds,ymin=means-sds,group=interaction(model,jall,type),fill=model),alpha=0.2)+
   facet_wrap(~jall,scales="free")+
-  scale_fill_discrete(name="")+
-  scale_color_discrete(name="")+
+  scale_fill_manual(name="",values=c("#339966","#000066"))+
+  scale_color_manual(name="",values=c("#339966","#000066"))+
   scale_x_continuous(name="Time (minutes)")+
   scale_y_continuous(name="Fomite 2")+
   theme_pubr()+
@@ -192,33 +163,6 @@ D<-ggplot(ribbonframe[ribbonframe$type=="Fomite 2",])+geom_line(aes(x=timeall,y=
 
 windows()
 ggarrange(A,B,C,D,common.legend = TRUE,nrow=2,ncol=2)
-
-#---------top 15 dose runs---------------------------------------
-
-#top 15% greatest doses
-framesum<-framecombine[framecombine$timeall==21,]
-framecombine2<-framesum[order(-framesum$dose),]
-top.15<-0.15*length(framecombine2$dose)
-
-top15.frame<-framecombine2[1:top.15,]
-
-#checking out which scenarios led to greatest doses
-table(top15.frame$model)
-table(top15.frame$j[top15.frame$model=="Markov"])
-table(top15.frame$j[top15.frame$model=="Discrete"])
-
-#extracting info for these runs
-for(i in 1:length(top15.frame$fome1total)){
-  if(i==1){
-    top15frameall<-framecombine[framecombine$a.save==top15.frame$a.save[i] & framecombine$j.save==top15.frame$j.save[i] & framecombine$model==top15.frame$model[i],]
-    top15frameall$run<-i
-  }else{
-    frametemp<-framecombine[framecombine$a.save==top15.frame$a.save[i] & framecombine$j.save==top15.frame$j.save[i] & framecombine$model==top15.frame$model[i],]
-    frametemp$run<-i
-    top15frameall<-rbind(top15frameall,frametemp)
-  }
-  
-}
 
 #Spearman correlation coeff with estimated dose per model framework and scenario---------------------------------------------------------------
 
@@ -288,9 +232,32 @@ H<-ggplot(paramsaveall)+geom_point(aes(x=khand,y=dose,color=j,group=interaction(
   scale_x_continuous(name="Inactivation on Hands")+
   guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
 
-windows()
+I<-ggplot(paramsaveall)+geom_point(aes(x=SH,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
+  facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  scale_y_continuous(name="Dpse")+
+  scale_color_continuous(name="")+
+  scale_x_continuous(name="Fraction of Hand for Fomite Touch")+
+  guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
+
+
+J<-ggplot(paramsaveall)+geom_point(aes(x=SF,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
+  facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
+  theme(axis.text=element_text(size=14),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  scale_y_continuous(name="Dpse")+
+  scale_color_continuous(name="")+
+  scale_x_continuous(name="Fraction of Hand for Mouth Touch")+
+  guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
 
 #spearman cor
+spearmancorval<-function(model="Markov",j=1){
+  data<-paramsaveall[paramsaveall$model==model & paramsaveall$j==j,]
+  data<-subset(data,select=-c(model))
+  signif(cor(data,method=c("spearman")),2)
+}
+#change line below to get desired coefficients
+spearmancorval(model="Discrete",j=4)
+
 
 
 #top 15% dose exploration----------------------------------------------------------
@@ -329,10 +296,63 @@ for(i in 1:length(top15.frame$fome1total)){
 
 top15frameall$jall<-top15frameall$j.save
 
-ggplot(top15frameparam)+geom_histogram(aes(fome1conc,y=..density..),alpha=0.3,fill="grey",color="black",pattern="stripe")+
+#ggplot(top15frameparam)+geom_histogram(aes(Tehandsurf,y=..density..),alpha=0.3,fill="grey",color="black")+
   #geom_density(data=top15frameparam,aes(fome1conc),fill="grey",alpha=0.3,color="black")+
-  geom_histogram(data=paramsaveall,aes(fome1conc,y=..density..),alpha=0.3,fill="blue",color="black")
-  #geom_density(data=paramsaveall,aes(fome2conc),alpha=0.3,fill="blue",color="black")
+#  geom_histogram(data=paramsaveall,aes(Tehandsurf,y=..density..),alpha=0.3,fill="blue",color="black")+
+  #geom_density(data=paramsaveall,aes(fome2conc),alpha=0.3,fill="blue",color="black")+
+#  theme_pubr()+
+#theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
+
+A<-ggplot(top15frameparam)+geom_histogram(aes(Tesurfhand,y=..density..,fill="Top 15% Dose Iterations"),alpha=0.5,color="black")+
+  #geom_density(data=top15frameparam,aes(fome1conc),fill="grey",alpha=0.3,color="black")+
+  geom_histogram(data=paramsaveall,aes(Tesurfhand,y=..density..,fill="All Iterations"),alpha=0.3,color="black")+theme_pubr()+
+  theme(axis.text=element_text(size=18),axis.title=element_text(size=18),legend.text=element_text(size=18),strip.text=element_text(size=18))+
+  scale_x_continuous(name="Surface-to-Hand Transfer Efficiency")+
+  scale_y_continuous(name="Density")+
+  scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))
+#geom_density(data=paramsaveall,aes(fome2conc),alpha=0.3,fill="blue",color="black")
+
+#ggplot(top15frameparam)+geom_histogram(aes(totalhand,y=..density..),alpha=0.5,fill="grey",color="black")+
+  #geom_density(data=top15frameparam,aes(fome1conc),fill="grey",alpha=0.3,color="black")+
+#  geom_histogram(data=paramsaveall,aes(totalhand,y=..density..),alpha=0.3,fill="blue",color="black")+theme_pubr()+
+#  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
+#geom_density(data=paramsaveall,aes(fome2conc),alpha=0.3,fill="blue",color="black")
+
+#ggplot(top15frameparam)+geom_histogram(aes(SAfome1,y=..density..),alpha=0.5,fill="grey",color="black")+
+  #geom_density(data=top15frameparam,aes(fome1conc),fill="grey",alpha=0.3,color="black")+
+#  geom_histogram(data=paramsaveall,aes(SAfome1,y=..density..),alpha=0.3,fill="blue",color="black")+theme_pubr()+
+#  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
+#geom_density(data=paramsaveall,aes(fome2conc),alpha=0.3,fill="blue",color="black")
+
+#ggplot(top15frameparam)+geom_histogram(aes(SAfome2,y=..density..),alpha=0.5,fill="grey",color="black")+
+  #geom_density(data=top15frameparam,aes(fome1conc),fill="grey",alpha=0.3,color="black")+
+#  geom_histogram(data=paramsaveall,aes(SAfome2,y=..density..),alpha=0.3,fill="blue",color="black")+theme_pubr()+
+#  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
+#geom_density(data=paramsaveall,aes(fome2conc),alpha=0.3,fill="blue",color="black")
+
+#ggplot(top15frameparam)+geom_histogram(aes(kfome,y=..density..),alpha=0.5,fill="grey",color="black")+
+  #geom_density(data=top15frameparam,aes(fome1conc),fill="grey",alpha=0.3,color="black")+
+#  geom_histogram(data=paramsaveall,aes(kfome,y=..density..),alpha=0.3,fill="blue",color="black")+theme_pubr()+
+#  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
+#geom_density(data=paramsaveall,aes(fome2conc),alpha=0.3,fill="blue",color="black")
+
+B<-ggplot(top15frameparam)+geom_histogram(aes(SH,y=..density..,fill="Top 15% of Dose Iterations"),alpha=0.5,color="black")+
+  #geom_density(data=top15frameparam,aes(SH),fill="grey",alpha=0.3,color="black")+
+  geom_histogram(data=paramsaveall,aes(SH,y=..density..,fill="All Iterations"),alpha=0.3,color="black")+theme_pubr()+
+  theme(axis.text=element_text(size=18),axis.title=element_text(size=18),legend.text=element_text(size=18),strip.text=element_text(size=18))+
+  scale_x_continuous(name="Fraction of Hand for Fomite Touch")+
+  scale_y_continuous(name="Density")+
+  scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))
+ #geom_density(data=paramsaveall,aes(SH),alpha=0.3,fill="blue",color="black")
+
+#(top15frameparam)+geom_histogram(aes(SF,y=..density..),alpha=0.5,fill="grey",color="black")+
+#  #geom_density(data=top15frameparam,aes(fome1conc),fill="grey",alpha=0.3,color="black")+
+#  geom_histogram(data=paramsaveall,aes(SF,y=..density..),alpha=0.3,fill="blue",color="black")+theme_pubr()+
+#  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
+#geom_density(data=paramsaveall,aes(fome2conc),alpha=0.3,fill="blue",color="black")
+
+windows()
+ggarrange(A,B,common.legend=TRUE)
 
 
 
