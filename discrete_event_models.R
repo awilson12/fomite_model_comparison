@@ -231,7 +231,7 @@ discretefunc<-function(iter=iter){
                       timeall=timeall,a.save=a.save,j.save=j.save,dose=dosetotal,eventtotal=eventtotal)
     param<-data.frame(Tehandsurf=rep(TE.HS[a],4),Tesurfhand=rep(TE.SH[a],4),totalhand=rep(A.hand[a],4),
                       SAfome1=rep(SA.fome.1[a],4),SAfome2=rep(SA.fome.2[a],4),kfome=rep(inactiv.fome[a],4),khand=rep(inactiv.hands[a],4),
-                      SH=rep(S.H[a],4),SF=rep(S.F[a],4),dose=maxdoses)
+                      SH=rep(S.H[a],4),SF=rep(S.F[a],4),TEhandmouth=rep(TE.HF[a],4),dose=maxdoses)
     
     #saving overall larger frame for later plotting
     
