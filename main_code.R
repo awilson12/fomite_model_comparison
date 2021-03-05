@@ -92,7 +92,7 @@ maxdoseplot<-data.frame(maxdose=finaldoses,
 
 write.csv(framecombine,'frame_combine.csv')
 write.csv(maxdoseplot,'maxdoseplot.csv')
-write.scv(paramsave,'paramsave.csv')
+write.csv(paramsave,'paramsave.csv')
 
 #Plots---------------------------------------------------------------------------------------------------------------------
 
