@@ -119,11 +119,11 @@ ribbonframe<-data.frame(means,sds,model,type,jall,timeall)
 A<-ggplot(ribbonframe[ribbonframe$type=="Dose",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
   geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
   geom_ribbon(aes(x=timeall,ymax=means+sds,ymin=means-sds,group=interaction(model,jall,type),fill=model),alpha=0.2)+
-  facet_wrap(~jall,scales="free")+
+  facet_wrap(~jall)+
   scale_fill_manual(name="",values=c("#339966","#000066"))+
   scale_color_manual(name="",values=c("#339966","#000066"))+
   scale_x_continuous(name="Time (minutes)")+
-  scale_y_continuous(name="Dose")+
+  scale_y_continuous(name="Dose (# viral particles)")+
   theme_pubr()+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
   
@@ -131,33 +131,46 @@ B<-ggplot(ribbonframe[ribbonframe$type=="Hands",])+geom_line(aes(x=timeall,y=mea
   geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
   #geom_ribbon(aes(x=timeall,ymax=means+sds*1.96/sqrt(5000),ymin=means-sds*1.96/sqrt(5000),group=interaction(model,jall,type),fill=model),alpha=0.3)+
   geom_ribbon(aes(x=timeall,ymax=means+sds,ymin=means-sds,group=interaction(model,jall,type),fill=model),alpha=0.2)+
-  facet_wrap(~jall,scales="free")+
+  facet_wrap(~jall)+
   scale_fill_manual(name="",values=c("#339966","#000066"))+
   scale_color_manual(name="",values=c("#339966","#000066"))+
   scale_x_continuous(name="Time (minutes)")+
-  scale_y_continuous(name="Hands")+
+  scale_y_continuous(name=expression("Hands (viral particles/cm"^2*")"))+
   theme_pubr()+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
+
+windows()
+ggplot(ribbonframe[ribbonframe$type=="Hands" & ribbonframe$model=="Markov",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
+  geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
+  #geom_ribbon(aes(x=timeall,ymax=means+sds*1.96/sqrt(5000),ymin=means-sds*1.96/sqrt(5000),group=interaction(model,jall,type),fill=model),alpha=0.3)+
+  geom_ribbon(aes(x=timeall,ymax=means+sds,ymin=means-sds,group=interaction(model,jall,type),fill=model),alpha=0.2)+
+  scale_fill_manual(name="",values=c("#339966","#000066"))+
+  scale_color_manual(name="",values=c("#339966","#000066"))+
+  scale_x_continuous(name="Time (minutes)")+
+  scale_y_continuous(name=expression("Hands (viral particles/cm"^2*")"))+
+  theme_pubr()+
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
+
 
 C<-ggplot(ribbonframe[ribbonframe$type=="Fomite 1",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
   geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
   geom_ribbon(aes(x=timeall,ymax=means+sds,ymin=means-sds,group=interaction(model,jall,type),fill=model),alpha=0.2)+
-  facet_wrap(~jall,scales="free")+
+  facet_wrap(~jall)+
   scale_fill_manual(name="",values=c("#339966","#000066"))+
   scale_color_manual(name="",values=c("#339966","#000066"))+
   scale_x_continuous(name="Time (minutes)")+
-  scale_y_continuous(name="Fomite 1 ")+
+  scale_y_continuous(name=expression("Fomite 1 (viral particles/cm"^2*")"))+
   theme_pubr()+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
 
 D<-ggplot(ribbonframe[ribbonframe$type=="Fomite 2",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
   geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
   geom_ribbon(aes(x=timeall,ymax=means+sds,ymin=means-sds,group=interaction(model,jall,type),fill=model),alpha=0.2)+
-  facet_wrap(~jall,scales="free")+
+  facet_wrap(~jall)+
   scale_fill_manual(name="",values=c("#339966","#000066"))+
   scale_color_manual(name="",values=c("#339966","#000066"))+
   scale_x_continuous(name="Time (minutes)")+
-  scale_y_continuous(name="Fomite 2")+
+  scale_y_continuous(name=expression("Fomite 2 (viral particles/cm"^2*")"))+
   theme_pubr()+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
 
@@ -273,7 +286,7 @@ spearmancorval<-function(model="Markov",j=1){
   signif(cor(data,method=c("spearman")),2)
 }
 #change line below to get desired coefficients
-spearmancorval(model="Discrete",j=4)
+spearmancorval(model="Markov",j=1)
 
 
 
@@ -289,6 +302,7 @@ top15.frame<-framecombine2[1:top.15,]
 
 #checking out which scenarios led to greatest doses
 table(top15.frame$model)
+length(top15.frame$model[top15.frame$model=="Discrete"])/length(top15.frame$model)
 table(top15.frame$j[top15.frame$model=="Markov"])
 table(top15.frame$j[top15.frame$model=="Discrete"])
 
@@ -326,7 +340,8 @@ A<-ggplot(top15frameparam)+geom_histogram(aes(Tesurfhand,y=..density..,fill="Top
   theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),strip.text=element_text(size=18))+
   scale_x_continuous(name="Fomite-to-Hand Transfer Efficiency")+
   scale_y_continuous(name="Density")+
-  scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))
+  scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))+
+  guides(fill = guide_legend(override.aes = list(alpha = 0.2)))
 #geom_density(data=paramsaveall,aes(fome2conc),alpha=0.3,fill="blue",color="black")
 
 #ggplot(top15frameparam)+geom_histogram(aes(totalhand,y=..density..),alpha=0.5,fill="grey",color="black")+
@@ -359,7 +374,8 @@ B<-ggplot(top15frameparam)+geom_histogram(aes(SH,y=..density..,fill="Top 15% of 
   theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),strip.text=element_text(size=18))+
   scale_x_continuous(name="Fraction of Hand for Fomite Touch")+
   scale_y_continuous(name="Density")+
-  scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))
+  scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))+
+  guides(fill = guide_legend(override.aes = list(alpha = 0.2)))
  #geom_density(data=paramsaveall,aes(SH),alpha=0.3,fill="blue",color="black")
 
 C<-ggplot(top15frameparam)+geom_histogram(aes(TEhandmouth,y=..density..,fill="Top 15% of Dose Iterations"),alpha=0.5,color="black")+
@@ -368,7 +384,8 @@ C<-ggplot(top15frameparam)+geom_histogram(aes(TEhandmouth,y=..density..,fill="To
   theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),strip.text=element_text(size=18))+
   scale_x_continuous(name="Hand-to-Mouth Transfer Efficiency")+
   scale_y_continuous(name="Density")+
-  scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))
+  scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))+
+  guides(fill = guide_legend(override.aes = list(alpha = 0.2)))
 
 D<-ggplot(top15frameparam[top15frameparam$model=="Discrete",])+geom_histogram(aes(handeff,y=..density..,fill="Top 15% of Dose Iterations"),alpha=0.5,color="black")+
   #geom_density(data=top15frameparam,aes(SH),fill="grey",alpha=0.3,color="black")+
@@ -376,7 +393,8 @@ D<-ggplot(top15frameparam[top15frameparam$model=="Discrete",])+geom_histogram(ae
   theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),strip.text=element_text(size=18))+
   scale_x_continuous(name=expression("Log"[10]*phantom(x)*"Hand Hygiene Efficacy"))+
   scale_y_continuous(name="Density")+
-  scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))
+  scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))+
+  guides(fill = guide_legend(override.aes = list(alpha = 0.2)))
 
 E<-ggplot(top15frameparam[top15frameparam$model=="Discrete",])+geom_histogram(aes(facecontact,y=..density..,fill="Top 15% of Dose Iterations"),binwidth=1,alpha=0.5,color="black")+
   #geom_density(data=top15frameparam,aes(SH),fill="grey",alpha=0.3,color="black")+
@@ -385,7 +403,8 @@ E<-ggplot(top15frameparam[top15frameparam$model=="Discrete",])+geom_histogram(ae
   scale_x_continuous(name="Face contact timing")+
   scale_y_continuous(name="Density")+
   facet_wrap(~j)+
-  scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))
+  scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))+
+  guides(fill = guide_legend(override.aes = list(alpha = 0.2)))
 
 ggplot(ribbonframe[ribbonframe$type=="Dose",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
   geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
@@ -396,7 +415,8 @@ ggplot(ribbonframe[ribbonframe$type=="Dose",])+geom_line(aes(x=timeall,y=means,g
   scale_x_continuous(name="Time (minutes)")+
   scale_y_continuous(name="Dose")+
   theme_pubr()+
-  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
+  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  guides(fill = guide_legend(override.aes = list(alpha = 0.2)))
 
 table(top15frameparam$facecontact[top15frameparam$model=="Discrete"])
 
@@ -411,6 +431,8 @@ table(top15frameparam$facecontact[top15frameparam$model=="Discrete" & top15frame
 windows()
 ggarrange(A,B,C,D,common.legend=TRUE)
 
+windows()
+E
 
 
 
