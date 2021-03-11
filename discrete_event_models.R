@@ -138,9 +138,8 @@ discretefunc<-function(iter=iter){
           dose[i]<-dose[i-1]
           
           #concentration on hands changes by anticipated reduction due to hand washing
-          # !!!! Question here.. should we be accounting for reduction of concentration after accounting for inactivation on hands?
-          handR[i]<-handR[i-1]/(10^handsan[a])
-          handL[i]<-handL[i-1]/(10^handsan[a])
+          handR[i]<-handR[i-1]*exp(-inactiv.hands[a])/(10^handsan[a])
+          handL[i]<-handL[i-1]*exp(-inactiv.hands[a])/(10^handsan[a])
           
           #fomite concentrations reduced by inactivation
           fome1[i]<-fome1[i-1]*exp(-inactiv.fome[a])
