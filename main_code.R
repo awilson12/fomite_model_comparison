@@ -27,7 +27,7 @@ final.dose.discrete<-frame.save.discrete$dose[frame.save.discrete$timeall==21]
 a.save.dose.discrete<-frame.save.discrete$a[frame.save.discrete$timeall==21]
 j.save.dose.discrete<-frame.save.discrete$j[frame.save.discrete$timeall==21]
 
-rm(framesave)
+#rm(framesave)
 
 #run code for Markov models-------------------------------------------------------------------------------------------------
 
@@ -138,7 +138,7 @@ sumstat<-function(model=model,j=j){
   }
 
 
-sumstat(model="discrete",j=2)
+sumstat(model="markov",j=4)
 
 
 #---------old checks/notes-------------------------
