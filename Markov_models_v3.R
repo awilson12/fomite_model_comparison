@@ -60,7 +60,7 @@ markovfunc<-function(iter=iter){
       #saving states, iteration number, model number, and doses
       
       savelist<-c(1:length(sim.mat[1,]))
-      savelist<-savelist[savelist==1 | savelist%%(1/timestep)==0]
+      savelist<-savelist[savelist==1 | (savelist+1)%%(1/timestep)==0]
       
       if (j==1){
         frame<-data.frame(state1=sim.mat[1,savelist]/SA.fome.1[a],state2=sim.mat[2,savelist]/SA.fome.2[a],state3=sim.mat[3,savelist]/(A.hand[a]*2),state4=sim.mat[4,savelist],dose=sim.mat[5,savelist],

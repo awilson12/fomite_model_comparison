@@ -4,6 +4,7 @@ markovfunc<-function(iter=iter){
   save.list.temp<-list()
   
   for (a in 1:iter){
+    
     a<<-a
     
     for (j in 1:4){
@@ -35,15 +36,21 @@ markovfunc<-function(iter=iter){
           #for models 1 and 3 where hand hygiene moments are treated separately at specific times in the model...
           
           #and if this is a hand hygiene moment...
-          if (handhygsave[i]=="yes"){
-            
-            Ptemp<-Ptemp %*% P.all.b
-            
+          #if (handhygsave[i]=="yes"){
+          if(i>1){
+            if (handhygsave[i]=="yes"){
+              
+              Ptemp<-Ptemp %*% P.all.b
+              
+            }else{
+              
+              Ptemp<-Ptemp %*% P.all
+              
+            }
           }else{
-            
             Ptemp<-Ptemp %*% P.all
-            
           }
+          
         }else{
           
           #models 2 and 4
@@ -60,7 +67,7 @@ markovfunc<-function(iter=iter){
       #saving states, iteration number, model number, and doses
       
       savelist<-c(1:length(sim.mat[1,]))
-      savelist<-savelist[savelist==1 | savelist%%(1/timestep)==0]
+      savelist<-savelist[savelist==1 | (savelist+1)%%(1/timestep)==0]
       
       if (j==1){
         frame<-data.frame(state1=sim.mat[1,savelist]/SA.fome.1[a],state2=sim.mat[2,savelist]/SA.fome.2[a],state3=sim.mat[3,savelist]/(A.hand[a]*2),state4=sim.mat[4,savelist],dose=sim.mat[5,savelist],
