@@ -39,16 +39,20 @@ lambda.1.4<-inactiv.fome[a]*timestep
 lambda.2.4<-inactiv.fome[a]*timestep
 
 #loss due to hand washing
-lambda.3.4.b<-(1/10^handsan[a])
+k.handsan.event=log(10^handsan[a])*timestep
+lambda.3.4.b<-k.handsan.event+(inactiv.hands[a]*timestep)
 
 if(j==1 | j==3){
   #hand hygiene not included in loss
   lambda.3.4<-inactiv.hands[a]*timestep
+  
 }else{
   #hand hygiene included in loss
   #loss due to hand hygiene
-  handhygieneloss<-(1/10^handsan[a])*handsan.markov*timestep
-  lambda.3.4<-((1/10^handsan[a])*handsan.markov+inactiv.hands[a])*timestep
+  #handhygieneloss<-(1/10^handsan[a])*handsan.markov*timestep
+  #calculate first order decay rate
+  k.handsan=log(10^(handsan[a]*4))/duration
+  lambda.3.4<-(k.handsan+inactiv.hands[a])*timestep
 }
 
 #loss from hands due to dose moment (hand-to-mouth contact)
