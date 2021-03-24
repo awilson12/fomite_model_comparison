@@ -140,12 +140,14 @@ B<-ggplot(ribbonframe[ribbonframe$type=="Hands",])+geom_line(aes(x=timeall,y=mea
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
 
 windows()
-ggplot(ribbonframe[ribbonframe$type=="Hands" & ribbonframe$model=="Markov",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
-  geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
+ggplot(ribbonframe[ribbonframe$type=="Hands" & ribbonframe$model=="Markov",])+
+  geom_ribbon(aes(x=timeall,ymax=means+sds,ymin=means-sds,group=interaction(model,jall,type)),alpha=0.2)+
+  geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=as.character(jall)),size=1)+
+  geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=as.character(jall),fill=as.character(jall)),size=2,alpha=0.5)+
   #geom_ribbon(aes(x=timeall,ymax=means+sds*1.96/sqrt(5000),ymin=means-sds*1.96/sqrt(5000),group=interaction(model,jall,type),fill=model),alpha=0.3)+
-  geom_ribbon(aes(x=timeall,ymax=means+sds,ymin=means-sds,group=interaction(model,jall,type),fill=model),alpha=0.2)+
-  scale_fill_manual(name="",values=c("#339966","#000066"))+
-  scale_color_manual(name="",values=c("#339966","#000066"))+
+  #scale_fill_manual(name="",values=c("#339966","#000066"))+
+  scale_color_discrete(name="")+
+  scale_fill_discrete(name="")+
   scale_x_continuous(name="Time (minutes)")+
   scale_y_continuous(name=expression("Hands (viral particles/cm"^2*")"))+
   theme_pubr()+
