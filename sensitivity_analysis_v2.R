@@ -205,13 +205,13 @@ ggplot(paramsaveall)+geom_point(aes(x=fome2conc,y=dose,color=j,group=interaction
   guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
 
 framecombine$startconcratio<-NA
+framecombine$startfome1<-NA
+framecombine$startfome2<-NA
 for (i in 1:iter){
   framecombine$startconcratio[framecombine$a.save==i]<-framecombine$fome1total[framecombine$timeall==0 & framecombine$a.save==i & framecombine$j.save==1 & framecombine$model=="Markov"]/framecombine$fome2total[framecombine$timeall==0 & framecombine$a.save==i & framecombine$j.save==1 & framecombine$model=="Markov"]
-  
+  framecombine$startfome1[framecombine$a.save==i]<-framecombine$fome1total[framecombine$timeall==0 & framecombine$a.save==i & framecombine$j.save==1 & framecombine$model=="Markov"]
+  framecombine$startfome2[framecombine$a.save==i]<-framecombine$fome2total[framecombine$timeall==0 & framecombine$a.save==i & framecombine$j.save==1 & framecombine$model=="Markov"]
 }
-
-framecombine$frac<-FALSE
-framecombine$frac[framecombine$startconcratio>0.3 & framecombine$startconcratio<3]<-TRUE
 
 windows()
 ggplot(framecombine)+geom_line(aes(x=timeall,y=dose,color=frac,group=interaction(a.save,j.save,model)),alpha=0.2)+
@@ -228,8 +228,8 @@ top15.frame<-framecombine2[1:top.15,]
 
 #checking out which scenarios led to greatest doses
 table(top15.frame$model)
-table(top15.frame$j[top15.frame$model=="Markov"])
-table(top15.frame$j[top15.frame$model=="Discrete"])
+table(top15.frame$j.save[top15.frame$model=="Markov"])
+table(top15.frame$j.save[top15.frame$model=="Discrete"])
 
 #extracting info for these runs
 for(i in 1:length(top15.frame$fome1total)){
@@ -252,15 +252,15 @@ for(i in 1:length(top15.frame$fome1total)){
 
 top15frameall$jall<-top15frameall$j.save
 
-A<-ggplot(top15frameparam)+geom_density_pattern(aes(fome1conc,fill="High Dose Iterations"),alpha=0.3,pattern="circle")+
-  geom_density_pattern(data=paramsaveall,aes(fome1conc,fill="All Iterations"),alpha=0.3,pattern="none")+
+A<-ggplot(top15.frame)+geom_density_pattern(aes(x=startfome1,fill="High Dose Iterations"),alpha=0.3,pattern="circle")+
+  geom_density_pattern(data=paramsaveall,aes(x=fome1conc,fill="All Iterations"),alpha=0.3,pattern="none")+
   scale_y_continuous(name="Density")+
   scale_x_continuous(name="Fomite 1 Starting Concentration")+
   theme_pubr()+
   scale_fill_manual(labels=c("All Iterations","High Dose Iterations"),values=c("grey","blue"),name="")+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
 
-B<-ggplot(top15frameparam)+geom_density_pattern(aes(fome2conc,fill="High Dose Iterations"),alpha=0.3,pattern="circle")+
+B<-ggplot(top15.frame)+geom_density_pattern(aes(startfome2,fill="High Dose Iterations"),alpha=0.3,pattern="circle")+
   geom_density_pattern(data=paramsaveall,aes(fome2conc,fill="All Iterations"),alpha=0.3,pattern="none")+
   scale_y_continuous(name="Density")+
   scale_x_continuous(name="Fomite 2 Starting Concentration")+
@@ -268,7 +268,7 @@ B<-ggplot(top15frameparam)+geom_density_pattern(aes(fome2conc,fill="High Dose It
   scale_fill_manual(labels=c("All Iterations","High Dose Iterations"),values=c("grey","blue"),name="")+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
 
-C<-ggplot(top15frameparam)+geom_density_pattern(aes(fome1conc/fome2conc,fill="High Dose Iterations"),alpha=0.3,pattern="circle")+
+C<-ggplot(top15.frame)+geom_density_pattern(aes(startfome1/startfome2,fill="High Dose Iterations"),alpha=0.3,pattern="circle")+
   geom_density_pattern(data=paramsaveall,aes(fome1conc/fome2conc,fill="All Iterations"),alpha=0.3,pattern="none")+
   scale_y_continuous(name="Density")+
   scale_x_continuous(name="Fomite 1 / Fomite 2 Starting Concentration",trans="log10")+
