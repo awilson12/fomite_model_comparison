@@ -11,8 +11,8 @@ TE.SH<-rtrunc(iter,"lnorm",-2.1,1.4,a=0,b=1)
 TE.HF<-rtrunc(iter,"norm",mean=0.3390,sd=0.1318,a=0,b=1)
 
 #surface areas of fomites
-SA.fome.1<-runif(iter,150,250) #placeholder
-SA.fome.2<-runif(iter,150,250)  #placeholder
+SA.fome.1<-runif(iter,150,250) 
+SA.fome.2<-runif(iter,150,250)  
 
 #fraction of hand surface area for hand-to-surf contact
 S.H<-runif(iter,0.008,0.25)
@@ -24,7 +24,7 @@ S.F<-runif(iter,0.008,0.012)
 A.hand<-runif(iter,445,535)
 
 #inactivation on fomites (in per hr so x 1/60 to conver to per min)
-inactiv.fome<-runif(iter,0.0048,0.013)*(1/60)
+inactiv.fome<-runif(iter,0.0048,0.014)*(1/60)
 
 #inactivation on hands (gloved) (in per hr so x 1/60 to conver to per min)
 inactiv.hands<-runif(iter,0.61,1.7)*(1/60)

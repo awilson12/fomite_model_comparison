@@ -27,7 +27,7 @@ S.F<-runif(iter,0.008,0.012)
 A.hand<-runif(iter,445,535)
 
 #inactivation on fomites (in per hr so x 1/60 to conver to per min)
-inactiv.fome<-runif(iter,0.0048,0.013)*(1/60)
+inactiv.fome<-runif(iter,0.0048,0.014)*(1/60)
 
 #inactivation on hands (gloved) (in per hr so x 1/60 to conver to per min)
 inactiv.hands<-runif(iter,0.61,1.7)*(1/60)

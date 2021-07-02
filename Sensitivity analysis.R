@@ -109,12 +109,16 @@ sds<-c(sd.discrete,sd.markov,
 model<-rep(c(rep("Discrete",length(mean.discrete)),rep("Markov",length(mean.discrete))),4)
 type<-c(rep("Dose",length(mean.discrete)*2),
       rep("Hands",length(mean.discrete)*2),
-      rep("Fomite 1",length(mean.discrete)*2),
-      rep("Fomite 2",length(mean.discrete)*2))
+      rep("Fomite A",length(mean.discrete)*2),
+      rep("Fomite B",length(mean.discrete)*2))
 jall<-rep(j.all,8)
 timeall<-rep(time,8)
 
 ribbonframe<-data.frame(means,sds,model,type,jall,timeall)
+ribbonframe$jall[ribbonframe$jall==1]<-"Scenario 1"
+ribbonframe$jall[ribbonframe$jall==2]<-"Scenario 2"
+ribbonframe$jall[ribbonframe$jall==3]<-"Scenario 3"
+ribbonframe$jall[ribbonframe$jall==4]<-"Scenario 4"
 
 A<-ggplot(ribbonframe[ribbonframe$type=="Dose",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
   geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
@@ -154,30 +158,32 @@ ggplot(ribbonframe[ribbonframe$type=="Hands" & ribbonframe$model=="Markov",])+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
 
 
-C<-ggplot(ribbonframe[ribbonframe$type=="Fomite 1",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
+C<-ggplot(ribbonframe[ribbonframe$type=="Fomite A",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
   geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
   geom_ribbon(aes(x=timeall,ymax=means+sds,ymin=means-sds,group=interaction(model,jall,type),fill=model),alpha=0.2)+
   facet_wrap(~jall)+
   scale_fill_manual(name="",values=c("#339966","#000066"))+
   scale_color_manual(name="",values=c("#339966","#000066"))+
   scale_x_continuous(name="Time (minutes)")+
-  scale_y_continuous(name=expression("Fomite 1 (viral particles/cm"^2*")"))+
+  scale_y_continuous(name=expression("Fomite A (viral particles/cm"^2*")"))+
   theme_pubr()+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
 
-D<-ggplot(ribbonframe[ribbonframe$type=="Fomite 2",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
+D<-ggplot(ribbonframe[ribbonframe$type=="Fomite B",])+geom_line(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=1)+
   geom_point(aes(x=timeall,y=means,group=interaction(model,jall,type),color=model),size=2,alpha=0.5)+
   geom_ribbon(aes(x=timeall,ymax=means+sds,ymin=means-sds,group=interaction(model,jall,type),fill=model),alpha=0.2)+
   facet_wrap(~jall)+
   scale_fill_manual(name="",values=c("#339966","#000066"))+
   scale_color_manual(name="",values=c("#339966","#000066"))+
   scale_x_continuous(name="Time (minutes)")+
-  scale_y_continuous(name=expression("Fomite 2 (viral particles/cm"^2*")"))+
+  scale_y_continuous(name=expression("Fomite B (viral particles/cm"^2*")"))+
   theme_pubr()+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))
 
 windows()
 ggarrange(A,B,C,D,common.legend = TRUE,nrow=2,ncol=2)
+
+
 
 #Spearman correlation coeff with estimated dose per model framework and scenario---------------------------------------------------------------
 
@@ -220,7 +226,7 @@ D<-ggplot(paramsaveall)+geom_point(aes(x=SAfome1,y=dose,color=j,group=interactio
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
   scale_y_continuous(name="Dose")+
   scale_color_continuous(name="")+
-  scale_x_continuous(name="SA of Fomite 1")+
+  scale_x_continuous(name="SA of Fomite A")+
   guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
 
 E<-ggplot(paramsaveall)+geom_point(aes(x=SAfome2,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
@@ -228,15 +234,16 @@ E<-ggplot(paramsaveall)+geom_point(aes(x=SAfome2,y=dose,color=j,group=interactio
   theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
   scale_y_continuous(name="Dose")+
   scale_color_continuous(name="")+
-  scale_x_continuous(name="SA of Fomite 2")+
+  scale_x_continuous(name="SA of Fomite B")+
   guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
 
 G<-ggplot(paramsaveall)+geom_point(aes(x=kfome,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
   facet_wrap(model~j,scales="free",nrow=2,ncol=4)+theme_pubr()+
-  theme(axis.text=element_text(size=16),axis.title=element_text(size=16),legend.text=element_text(size=16),strip.text=element_text(size=16))+
+  theme(axis.text=element_text(size=11),axis.title=element_text(size=14),legend.text=element_text(size=16),strip.text=element_text(size=16))+
   scale_y_continuous(name="Dose")+
   scale_color_continuous(name="")+
-  scale_x_continuous(name="Inactivation on Fomites")+
+  scale_x_continuous(name="Inactivation on Fomites",labels = scales::scientific)+
+  theme(axis.text.x = element_text(angle = 90,vjust=-0.01))+
   guides(colour = guide_legend(override.aes = list(alpha=1,size=3)))
 
 H<-ggplot(paramsaveall)+geom_point(aes(x=khand,y=dose,color=j,group=interaction(j,model)),alpha=0.4)+
@@ -288,7 +295,7 @@ spearmancorval<-function(model="Markov",j=1){
   signif(cor(data,method=c("spearman")),2)
 }
 #change line below to get desired coefficients
-spearmancorval(model="Markov",j=1)
+spearmancorval(model="Discrete",j=2)
 
 
 
@@ -398,11 +405,20 @@ D<-ggplot(top15frameparam[top15frameparam$model=="Discrete",])+geom_histogram(ae
   scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))+
   guides(fill = guide_legend(override.aes = list(alpha = 0.2)))
 
+top15frameparam$j[top15frameparam$j==1]<-"Scenario 1"
+top15frameparam$j[top15frameparam$j==2]<-"Scenario 2"
+top15frameparam$j[top15frameparam$j==3]<-"Scenario 3"
+top15frameparam$j[top15frameparam$j==4]<-"Scenario 4"
+paramsaveall$j[paramsaveall$j==1]<-"Scenario 1"
+paramsaveall$j[paramsaveall$j==2]<-"Scenario 2"
+paramsaveall$j[paramsaveall$j==3]<-"Scenario 3"
+paramsaveall$j[paramsaveall$j==4]<-"Scenario 4"
+
 E<-ggplot(top15frameparam[top15frameparam$model=="Discrete",])+geom_histogram(aes(facecontact,y=..density..,fill="Top 15% of Dose Iterations"),binwidth=1,alpha=0.5,color="black")+
   #geom_density(data=top15frameparam,aes(SH),fill="grey",alpha=0.3,color="black")+
   geom_histogram(data=paramsaveall,aes(facecontact,y=..density..,fill="All Iterations"),alpha=0.3,color="black",binwidth = 1)+theme_pubr()+
   theme(axis.text=element_text(size=16),axis.title=element_text(size=18),legend.text=element_text(size=18),strip.text=element_text(size=18))+
-  scale_x_continuous(name="Face contact timing")+
+  scale_x_continuous(name="Face Contact Timing")+
   scale_y_continuous(name="Density")+
   facet_wrap(~j)+
   scale_fill_manual(name="",labels=c("All Iterations","Top 15% Dose Iterations"),values=c("#339966","#000066"))+

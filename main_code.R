@@ -107,7 +107,7 @@ maxdoseplot$symmetry[maxdoseplot$j==3 | maxdoseplot$j==4]<-"Asymmetric Contact F
 windows()
 ggplot(maxdoseplot)+geom_violin(aes(x=model,y=maxdose,group=interaction(as.character(j),model),fill=as.character(j)),alpha=0.4,draw_quantiles = c(0.25,0.5,0.75))+
   scale_y_continuous(trans="log10",name=expression("Log"[10]*phantom(x)*"Dose"))+
-  scale_x_discrete(name="",labels=c("Discrete","Markov"))+
+  scale_x_discrete(name="Model Type",labels=c("Discrete","Markov"))+
   scale_fill_manual(name="Model Scenario",values=c("#339966","#000066","dark grey","#FF6633"))+
   theme_pubr()+
   theme(axis.text=element_text(size=20),axis.title=element_text(size=20),legend.text=element_text(size=20),strip.text=element_text(size=18))+
